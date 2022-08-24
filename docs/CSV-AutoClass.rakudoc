@@ -1,0 +1,29 @@
+=begin pod
+
+=head1 NAME
+
+CSV-AutoClass - Define a class with a CSV file and provide data for a list of class objects in the same file
+
+=head1 SYNOPSIS
+
+=begin code :lang<raku>
+
+use CSV-AutoClass;
+
+=end code
+
+=head1 DESCRIPTION
+
+CSV-AutoClass is ...
+
+=head1 AUTHOR
+
+Tom Browder <tbrowder@acm.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2022 Tom Browder
+
+This library is free software; you may redistribute it or modify it under the Artistic License 2.0.
+
+=end pod
