@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/test.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions)
+
 NAME
 ====
 
