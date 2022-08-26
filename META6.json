@@ -7,7 +7,7 @@
   ],
   "depends": [
     "CSV::Parser",
-    "Text::Utils"
+    "File::Find"
   ],
   "description": "Define a class with a CSV file and provide data for a list of class objects in the same file",
   "license": "Artistic-2.0",
@@ -20,9 +20,10 @@
   ],
   "source-url": "https://github.com/tbrowder/CSV-AutoClass.git",
   "tags": [
-    "csv class auto-build"
+    "csv class auto-build object text txt"
   ],
   "test-depends": [
+    "Text::Utils"
   ],
   "version": "0.0.1"
 }

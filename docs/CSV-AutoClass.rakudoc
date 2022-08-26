@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-CSV-AutoClass - Define a class with a CSV file and provide data for a list of class objects in the same file
+B<CSV-AutoClass> - Define a class with a CSV file and provide data for a list of class objects in the same file
 
 =head1 SYNOPSIS
 
@@ -14,7 +14,10 @@ use CSV-AutoClass;
 
 =head1 DESCRIPTION
 
-CSV-AutoClass is ...
+CSV-AutoClass is a module with an accompanying program, C<cvs2class>, that converts a suitably-formatted
+CSV file into a class-generator module which can use that module and CSV file for further processing.
+For instance, given a CSV file named C<persons.cav>, the program will generate module C<Person.rakumod>
+which can be used by another included program, C<use-class>, to demonstrate using the module.
 
 =head1 AUTHOR
 
