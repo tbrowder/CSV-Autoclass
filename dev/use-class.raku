@@ -77,8 +77,8 @@ for @objs -> $o {
 sub get-csv-class-data(:$class = 'Person'; :$data = 'persons.csv', :$debug --> List) is export {
     use CSV::Parser;
     use File::Find;
-    try require ::('$class');
-    if ::('$class') ~~ Failure {
+    try require ::($class);
+    if ::($class) ~~ Failure {
         say "Failed to load '$class'!";
     }
 
@@ -134,10 +134,10 @@ sub get-csv-class-data(:$class = 'Person'; :$data = 'persons.csv', :$debug --> L
         if $debug {
             note "DEBUG: data {@data.raku}";
         }
-        #my $obj = ::($class).new(|@data);
-        my $obj = &::($class).new(|@data);
+        my $obj = ::($class).new(|@data);
         if $debug {
             note "DEBUG: object {$obj.last}";
+            note $obj.last;
         }
         @objs.push: $obj;
     }
