@@ -82,15 +82,23 @@ for @objs -> $o {
 }
 
 #### subroutines ####
-sub get-csv-class-data(:$class = 'Person'; :$data = 'persons.csv', :$debug --> List) is export {
+sub get-csv-class-data(
+    :$class = 'Person'; 
+    :$data = 'persons.csv', 
+    :$dir,
+    :$debug,
+     --> List
+) is export {
+
     use CSV::Parser;
     use File::Find;
-
-    (try require ::($class) ) === Nil and die "FATAL: Failed to load module '$class'!";
 
     my $basename = $data.IO.basename;
     my $dir      = $data.IO.dirname;
     my $ext      = $data.IO.extension.lc;
+
+    (try require ::($class) ) === Nil and die "FATAL: Failed to load module '$class'!";
+
     if $debug {
         note qq:to/HERE/;
         DEBUG from 'get-csv-class-data':
