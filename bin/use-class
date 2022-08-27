@@ -11,18 +11,23 @@ if not @*ARGS.elems {
     Usage:
       $prog class=<class name> [...opts][help]
           OR
-      $prog class=<class name> data=<class data file path> [...opts]
+      $prog class=<class name> data=<class data file> [...opts]
           OR
       $prog go [...opts]
 
       Use the 'help' option for detailed instructions.
+
+    Options:
+      dir=<directory to start search from> (default is '.')
+      debug
     HERE
 
     exit;
 }
 
-my $debug  = 0;
-my $go     = 0;
+my $debug = 0;
+my $go    = 0;
+my $dir   = '.';
 my $csvfil;
 my $cname; # abc.csv => Abc [<-- Abc is the cname (class name)]
 
@@ -49,6 +54,12 @@ for @*ARGS {
     when /:i data '=' (\S+) / {
         $csvfil = ~$0;
     }
+    when /:i dir '=' (\S+) / {
+        $dir = ~$0;
+        unless $dir.IO.d {
+            die "FATAL: Directory '$dir' does not exist";
+        }
+    }
     when /:i ^g/ { $go    = 1 }
     when /:i ^d/ { $debug = 1 }
     default { die "FATAL: Unknown arg '$_'" }
@@ -59,10 +70,7 @@ if not $csvfil.defined {
     $cname  = "Person";
 }
 
-try require ::($cname);
-if ::($cname) ~~ Failure {
-    say "Failed to load '$cname'!";
-}
+(try require ::($cname) ) === Nil and die "FATAL: Failed to load module '$cname'!";
 
 say "Reading the CSV file and getting one $cname object per data line...";
 my @objs = get-csv-class-data :class($cname), :data($csvfil), :$debug;
@@ -77,10 +85,8 @@ for @objs -> $o {
 sub get-csv-class-data(:$class = 'Person'; :$data = 'persons.csv', :$debug --> List) is export {
     use CSV::Parser;
     use File::Find;
-    try require ::($class);
-    if ::($class) ~~ Failure {
-        say "Failed to load '$class'!";
-    }
+
+    (try require ::($class) ) === Nil and die "FATAL: Failed to load module '$class'!";
 
     my $basename = $data.IO.basename;
     my $dir      = $data.IO.dirname;

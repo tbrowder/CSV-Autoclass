@@ -12,8 +12,6 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
           OR
       $prog go [...opts]
 
-      Use the 'help' option for detailed instructions.
-
       The 'class' name is expected to be in the format described by
       the 'CSV-AutoClass' module: a capitalized name of at least two
       letters optionally followed by more valid term characters.
@@ -36,7 +34,7 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
       be thrown. If the '$eg-class' module is not found, an exception
       will be thrown.
 
-    Options
+    Options:
         debug
     HERE
     exit;
