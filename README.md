@@ -15,7 +15,17 @@ use CSV-AutoClass;
 DESCRIPTION
 ===========
 
-CSV-AutoClass is a module with an accompanying program, `cvs2class`, that converts a suitably-formatted CSV file into a class-generator module which can use that module and CSV file for further processing. For instance, given a CSV file named `persons.cav`, the program will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
+CSV-AutoClass is a module with two accompanying programs:
+
+  * `cvs2class` 
+
+    Converts a suitably-formatted CSV file into a class-generator module. 
+
+    For instance, given a CSV file named `persons.cav`, the program will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
+
+  * `use-class`
+
+    Uses a CSV file with class data to list all the data. It uses `CSV-AutoClass` routines provided for interrogating any suitable list of `CSV-AutoClass objects`.
 
 AUTHOR
 ======
