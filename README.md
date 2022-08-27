@@ -32,11 +32,24 @@ Notes
 
 The header line in the CSV data file is currently designed to use alphanumeric characters which works fine with files designed by the user. However, files produced by outside entities, such as banks, stock markets, and government agencies, may use other symbols (such as '#') that cannot be used in Raku for class attribute names. In such cases, the names will be transformed into approximations which may include the zero-index number of the field's position in the header line.
 
-One known example is the header line in the transactions files of the author's bank, Hancock-Whitney. That transaction file header is shown here:
+One known example is the header line in the transactions files of the Hancock-Whitney Bank. That transaction file header is shown below. Notice the order of the Debit/Credit column is the 
+
+    Date,Check#,Transaction Type,Description,Debits (-),Credits(+)
 
 It is transformed into this header for attribute naming:
 
-If you see a transformation you don't like, you can make an entry in the INI file in your home directory. A WIP
+    Date,Check,TransactionType,Description,Debit,Credit
+
+On the other hand, Synovus Bank has the following header for its transactions CSV file. The field names work fine after down-casing them:
+
+    Date,Account,Description,Category,Check,Credit,Debit
+
+In both cases the class attribute names are clear and objects created from the CSV files should be good translations of the attribute values **as strings**. However, the meaning of the columns may not be obvious, nor may the transactions be unique if the files are concatenated erronously by the user in processing the downloads.
+
+Possible improvements
+---------------------
+
+In like manner to module `App::Mi6`, add an INI file to the user's `` directory to be used for defining translations for CSV files. Such translations could be modified by the user if the user wishes to improve the transformation.
 
 AUTHOR
 ======
