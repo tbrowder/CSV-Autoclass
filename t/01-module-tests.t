@@ -1,8 +1,13 @@
 use Test;
-use lib "xt";
+use lib "t";
 use Util;
 use File::Temp;
-use App::Mi6::JSON;
+use CSV-AutoClass;
+
+plan 1;
+is 1, 1;
+
+=finish
 
 my $r;
 $r = mi6 "new";

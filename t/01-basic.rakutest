@@ -1,6 +1,0 @@
-use Test;
-use CSV-AutoClass;
-
-pass "replace me";
-
-done-testing;
