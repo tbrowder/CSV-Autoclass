@@ -42,16 +42,27 @@ symbols (such as '#') that cannot be used in Raku for class attribute names.
 In such cases, the names will be transformed into approximations which may include
 the zero-index number of the field's position in the header line.
 
-One known example is the header line in the transactions files of the author's bank, Hancock-Whitney.
-That transaction file header is shown here:
+One known example is the header line in the transactions files of the Hancock-Whitney Bank.
+That transaction file header is shown below. Notice the order of the Debit/Credit column
+is the 
 
 =begin code
+Date,Check#,Transaction Type,Description,Debits (-),Credits(+)
 =end code
 
 It is transformed into this header for attribute naming:
 
 =begin code
+Date,Check,TransactionType,Description,Debit,Credit
 =end code
+
+On the other hand, Synovus Bank has the following header for its transactions CSV file.
+The field names work fine after down-casing them:
+
+=begin code
+Date,Account,Description,Category,Check,Credit,Debit
+=end code
+
 
 If you see a transformation you don't like, you can make an entry in the INI file
 in your home directory. A WIP
