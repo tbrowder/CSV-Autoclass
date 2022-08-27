@@ -18,7 +18,7 @@ if not @*ARGS.elems {
     data lines in the input file.
 
     If the 'go' arg is entered, the example CSV input file
-    '$example' is output to STDOUT.
+    '$eg-data' is output to STDOUT.
 
     Options
         debug
