@@ -57,6 +57,13 @@ Possible improvements
 
   * Use a database for storage instead of a CSV file.
 
+TODO
+----
+
+  * Make field name translations work.
+
+  * Add extensive tests.
+
 AUTHOR
 ======
 

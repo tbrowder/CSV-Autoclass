@@ -83,6 +83,12 @@ the user if the user wishes to improve the transformation.
 
 =item Use a database for storage instead of a CSV file.
 
+=head2 TODO
+
+=item Make field name translations work.
+
+=item Add extensive tests.
+
 =head1 AUTHOR
 
 Tom Browder <tbrowder@acm.org>
