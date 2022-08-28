@@ -70,22 +70,29 @@ if not $csvfil.defined {
     $cname  = "Person";
 }
 
-(try require ::($cname) ) === Nil and die "FATAL: Failed to load module '$cname'!";
+if (try require ::($cname)) === Nil {
+    die "FATAL: Failed to load module '$cname'!";
+}
 
 say "Reading the CSV file and getting one $cname object per data line...";
 my @objs = get-csv-class-data :class($cname), :data($csvfil), :$debug;
 #say "temp exit with {@objs.elems} objects"; exit;
 
 say "Showing each object:";
-for @objs -> $o {
-    say $o.raku;
+for @objs.kv -> $i, $o {
+    say "Record $i:";
+    for $o.^attributes -> $a {
+        my $v = $a.get_value($o);
+        my $nam = $a.name.comb[2..*].join("");
+        say "  field: {$nam}, value: '$v'";
+    };
 }
 
 #### subroutines ####
 sub get-csv-class-data(
     :$class = 'Person'; 
-    :$data = 'persons.csv', 
-    :$dir,
+    :$data  = 'persons.csv', 
+    :$dir   = '.',
     :$debug,
      --> List
 ) is export {
@@ -94,10 +101,11 @@ sub get-csv-class-data(
     use File::Find;
 
     my $basename = $data.IO.basename;
-    my $dir      = $data.IO.dirname;
     my $ext      = $data.IO.extension.lc;
 
-    (try require ::($class) ) === Nil and die "FATAL: Failed to load module '$class'!";
+    if (try require ::($class)) === Nil {
+        die "FATAL: Failed to load module '$class'!";
+    }
 
     if $debug {
         note qq:to/HERE/;

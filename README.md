@@ -46,6 +46,8 @@ On the other hand, Synovus Bank has the following header for its transactions CS
 
 In both cases the class attribute names are clear and objects created from the CSV files should be good translations of the attribute values **as strings**. However, the meaning of the columns may not be obvious, nor may the transactions be unique if the files are concatenated erronously by the user in processing the downloads.
 
+Also note both banks have their transactions temporally ordered with the most recent one on top. Given that, the user is cautioned about rewriting those files for whatever reason. One suggestion is to add an index number column and start the first tranaction in each month with one and increment by one for succeeding transactions
+
 Possible improvements
 ---------------------
 
