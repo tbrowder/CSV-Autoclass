@@ -15,7 +15,7 @@ use CSV-AutoClass;
 DESCRIPTION
 ===========
 
-CSV-AutoClass is a module with two accompanying programs:
+**CSV-AutoClass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
 
   * `csv2class` 
 
@@ -27,12 +27,14 @@ CSV-AutoClass is a module with two accompanying programs:
 
     Uses a CSV file with class data to list all the data. It uses `CSV-AutoClass` routines provided for interrogating any suitable list of `CSV-AutoClass objects`.
 
+    Its `help` option has many more details about its usage.
+
 Notes
 -----
 
 The header line in the CSV data file is currently designed to use alphanumeric characters which works fine with files designed by the user. However, files produced by outside entities, such as banks, stock markets, and government agencies, may use other symbols (such as '#') that cannot be used in Raku for class attribute names. In such cases, the names will be transformed into approximations which may include the zero-index number of the field's position in the header line.
 
-One known example is the header line in the transactions files of the Hancock-Whitney Bank. That transaction file header is shown below. Notice the order of the Debit/Credit column is the 
+One known example is the header line in the transactions files of the Hancock-Whitney Bank. That transaction file header is shown below. 
 
     Date,Check#,Transaction Type,Description,Debits (-),Credits(+)
 
@@ -51,7 +53,9 @@ Also note both banks have their transactions temporally ordered with the most re
 Possible improvements
 ---------------------
 
-In like manner to module `App::Mi6`, add an INI file to the user's `$*HOME` directory to be used for defining translations for CSV file header field names. Such translations could be modified by the user if the user wishes to improve the transformation.
+  * In like manner to module `App::Mi6`, add an INI file to the user's `$*HOME` directory to be used for defining translations for CSV file header field names. Such translations could be modified by the user if the user wishes to improve the transformation.
+
+  * Use a database for storage instead of a CSV file.
 
 AUTHOR
 ======

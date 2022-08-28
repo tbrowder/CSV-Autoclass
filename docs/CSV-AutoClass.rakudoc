@@ -14,7 +14,8 @@ use CSV-AutoClass;
 
 =head1 DESCRIPTION
 
-CSV-AutoClass is a module with two accompanying programs:
+B<CSV-AutoClass> is a module with two accompanying programs. For
+each program, execute it without any arguments to see instructions.
 
 =begin item 
 C<csv2class> 
@@ -31,6 +32,8 @@ C<use-class>
 Uses a CSV file with class data to list all the data. 
 It uses C<CSV-AutoClass> routines provided for interrogating any suitable list of C<CSV-AutoClass objects>.
 
+Its C<help> option has many more details about its usage.
+
 =end item
 
 =head2 Notes
@@ -43,8 +46,7 @@ In such cases, the names will be transformed into approximations which may inclu
 the zero-index number of the field's position in the header line.
 
 One known example is the header line in the transactions files of the Hancock-Whitney Bank.
-That transaction file header is shown below. Notice the order of the Debit/Credit column
-is the 
+That transaction file header is shown below. 
 
 =begin code
 Date,Check#,Transaction Type,Description,Debits (-),Credits(+)
@@ -72,11 +74,14 @@ Also note both banks have their transactions temporally ordered with the most re
 one on top. Given that, the user is cautioned about rewriting those files for
 whatever reason. One suggestion is to add an index number column and start
 the first tranaction in each month with one and increment by one for succeeding transactions
+
 =head2 Possible improvements
 
-In like manner to module C<App::Mi6>, add an INI file to the user's C<$*HOME> directory to be used
+=item In like manner to module C<App::Mi6>, add an INI file to the user's C<$*HOME> directory to be used
 for defining translations for CSV file header field names. Such translations could be modified by
 the user if the user wishes to improve the transformation.
+
+=item Use a database for storage instead of a CSV file.
 
 =head1 AUTHOR
 
