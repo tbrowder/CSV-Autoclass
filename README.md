@@ -51,7 +51,7 @@ Also note both banks have their transactions temporally ordered with the most re
 Possible improvements
 ---------------------
 
-In like manner to module `App::Mi6`, add an INI file to the user's `` directory to be used for defining translations for CSV files. Such translations could be modified by the user if the user wishes to improve the transformation.
+In like manner to module `App::Mi6`, add an INI file to the user's `$*HOME` directory to be used for defining translations for CSV file header field names. Such translations could be modified by the user if the user wishes to improve the transformation.
 
 AUTHOR
 ======

@@ -74,8 +74,8 @@ whatever reason. One suggestion is to add an index number column and start
 the first tranaction in each month with one and increment by one for succeeding transactions
 =head2 Possible improvements
 
-In like manner to module C<App::Mi6>, add an INI file to the user's C<> directory to be used
-for defining translations for CSV files. Such translations could be modified by
+In like manner to module C<App::Mi6>, add an INI file to the user's C<$*HOME> directory to be used
+for defining translations for CSV file header field names. Such translations could be modified by
 the user if the user wishes to improve the transformation.
 
 =head1 AUTHOR
