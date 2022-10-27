@@ -23,6 +23,7 @@
     "csv class auto-build object text txt"
   ],
   "test-depends": [
+    "File::Temp",
     "Text::Utils"
   ],
   "version": "0.0.1"
