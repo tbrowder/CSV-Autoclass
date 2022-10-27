@@ -21,7 +21,7 @@ DESCRIPTION
 
     Converts a suitably-formatted CSV file into a class-generator module. 
 
-    For instance, given a CSV file named `persons.cav`, the program will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
+    For instance, given a CSV file named `persons.csv`, the program will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
 
   * `use-class`
 
@@ -46,9 +46,9 @@ On the other hand, Synovus Bank has the following header for its transactions CS
 
     Date,Account,Description,Category,Check,Credit,Debit
 
-In both cases the class attribute names are clear and objects created from the CSV files should be good translations of the attribute values **as strings**. However, the meaning of the columns may not be obvious, nor may the transactions be unique if the files are concatenated erronously by the user in processing the downloads.
+In both cases the class attribute names are clear and objects created from the CSV files should be good translations of the attribute values **as strings**. However, the meaning of the columns may not be obvious, nor may the transactions be unique if the files are concatenated erroneously by the user in processing the downloads.
 
-Also note both banks have their transactions temporally ordered with the most recent one on top. Given that, the user is cautioned about rewriting those files for whatever reason. One suggestion is to add an index number column and start the first tranaction in each month with one and increment by one for succeeding transactions
+Also note both banks have their transactions temporally ordered with the most recent one on top. Given that, the user is cautioned about rewriting those files for whatever reason. One suggestion is to add an index number column and start the first transaction in each month with one and increment by one for succeeding transactions
 
 Possible improvements
 ---------------------
