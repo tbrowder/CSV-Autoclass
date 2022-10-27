@@ -4,8 +4,43 @@ use Util;
 use File::Temp;
 use CSV-AutoClass;
 
-plan 1;
-is 1, 1;
+my $debug = 0;
+# test proper sort
+my @sorted-keys = < 
+     0  1  2  3  4  5  6  7  8  9 
+    10 11 12 13 14 15 16 17 18 19 
+    20 21 22 23 24 25 26 27 28 29 
+>;
+
+# get a randomly picked set of keys
+my @rand = @sorted-keys.pick: *;
+
+say "random keys:";
+if $debug {
+    print "$_ " for @rand;
+    say();
+}
+
+my @idx = @rand.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
+if $debug {
+    say "sorted keys:";
+    print "$_ " for @idx;
+    say();
+}
+
+is-deeply @sorted-keys, @idx;
+
+done-testing;
+
+
+=finish
+
+# this is the header row
+            my @idx = %data.keys.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
+            for 0..^@idx.elems {
+                my $val = %data{$_}.trim;
+                @hdrs.push: $val;
+            }
 
 =finish
 

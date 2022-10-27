@@ -119,7 +119,7 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
     ROW: while my %data = %($parser.get_line()) {
         if not @hdrs.elems {
             # this is the header row
-            my @idx = %data.keys.sort; # keys are all numbers, so they should sort numerically
+            my @idx = %data.keys.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
             for 0..^@idx.elems {
                 my $val = %data{$_}.trim;
                 @hdrs.push: $val;
