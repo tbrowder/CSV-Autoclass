@@ -4,11 +4,17 @@ use Util;
 use File::Temp;
 use CSV-AutoClass;
 
-plan 1;
-is 1, 1;
-
-my $csv = q:to/HERE/;
+my $csv-str = q:to/HERE/;
+index, name,
+1, Paul
 HERE
+
+my $csv-fil = "/tmp/test.csv";
+spurt $csv-fil, $csv-str;
+
+is 1,1;
+
+done-testing;
 
 =finish
 
