@@ -1,4 +1,5 @@
 {
+  "api": "2",
   "auth": "zef:tbrowder",
   "authors": [
     "Tom Browder"
@@ -6,6 +7,7 @@
   "build-depends": [
   ],
   "depends": [
+    "Text::Utils",
     "CSV::Parser",
     "File::Find"
   ],
@@ -23,8 +25,7 @@
     "csv class auto-build object text txt"
   ],
   "test-depends": [
-    "File::Temp",
-    "Text::Utils"
+    "File::Temp"
   ],
   "version": "0.1.0"
 }

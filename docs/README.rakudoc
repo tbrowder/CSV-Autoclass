@@ -22,8 +22,13 @@ C<csv2class>
 
 Converts a suitably-formatted CSV file into a class-generator module. 
 
-For instance, given a CSV file named C<persons.csv>, the program will generate module C<Person.rakumod>
+For instance, given a CSV file named C<persons.csv>, the program, by default,
+will generate module C<Person.rakumod>
 which can be used by another included program, C<use-class>, to demonstrate using the module.
+
+The user can specify another class name by entering C<class=MyClassName>
+as an argument to C<csv2class>.
+
 =end item
 
 =begin item 
