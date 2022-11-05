@@ -1,6 +1,5 @@
 #!/usr/bin/env raku
 
-use lib "../lib"; # DELETE BEFORE PUBLISHING (OR COMMENT THE LINE OUT)
 use CSV-AutoClass;
 
 use lib <./>;
