@@ -7,6 +7,9 @@ use CSV-AutoClass;
 plan 1;
 is 1, 1;
 
+my $csv = q:to/HERE/;
+HERE
+
 =finish
 
 my $r;

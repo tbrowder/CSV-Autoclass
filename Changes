@@ -1,6 +1,7 @@
 Revision history for CSV-AutoClass
 
 {{$NEXT}}
+    - Define API 2: ability for the user to choose the class name
 
 0.1.0  2022-10-27T17:58:04-05:00
     - Fix typos in README

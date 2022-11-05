@@ -36,6 +36,8 @@ C<use-class>
 
 Uses a CSV file with class data to list all the data. 
 It uses C<CSV-AutoClass> routines provided for interrogating any suitable list of C<CSV-AutoClass objects>.
+It can be used as a template for creating programs that
+manipulate any CSV file with the same header attributes as the generated classes.
 
 Its C<help> option has many more details about its usage.
 
