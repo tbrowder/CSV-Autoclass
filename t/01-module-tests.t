@@ -5,6 +5,9 @@ use File::Temp;
 use CSV-AutoClass;
 
 my $debug = 0;
+
+plan 1;
+
 # test proper sort
 my @sorted-keys = < 
      0  1  2  3  4  5  6  7  8  9 
@@ -15,8 +18,8 @@ my @sorted-keys = <
 # get a randomly picked set of keys
 my @rand = @sorted-keys.pick: *;
 
-say "random keys:";
 if $debug {
+    say "random keys:";
     print "$_ " for @rand;
     say();
 }
@@ -29,9 +32,6 @@ if $debug {
 }
 
 is-deeply @sorted-keys, @idx;
-
-done-testing;
-
 
 =finish
 

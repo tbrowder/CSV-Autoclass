@@ -2,8 +2,6 @@
 
 use CSV-AutoClass;
 
-use lib <./>;
-
 my $prog = $*PROGRAM.basename;
 if not @*ARGS.elems {
     print qq:to/HERE/;

@@ -12,7 +12,13 @@ HERE
 my $csv-fil = "/tmp/test.csv";
 spurt $csv-fil, $csv-str;
 
-is 1,1;
+lives-ok {
+    cvs2class;
+}
+
+lives-ok {
+    use-class;
+}
 
 done-testing;
 

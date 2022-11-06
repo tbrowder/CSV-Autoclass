@@ -2,6 +2,9 @@ Revision history for CSV-AutoClass
 
 {{$NEXT}}
     - Define API 2: ability for the user to choose the class name
+    - Handle empty last field in header line
+    - Add tests
+    - Remove internal lib line for ./bin programs
 
 0.1.0  2022-10-27T17:58:04-05:00
     - Fix typos in README

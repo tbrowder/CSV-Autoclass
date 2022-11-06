@@ -113,9 +113,10 @@ sub write-class-def($cname, @attrs, :$debug --> Str) is export {
 sub get-csv-hdrs($fnam, :$debug --> List) is export {
     use CSV::Parser;
     my $fh = open $fnam, :r;
+
     my $parser = CSV::Parser.new: :file_handle($fh);
 
-    my @hdrs; # this is the first row headers in order of appearance:
+    my @hdrs; # this is list of the first row headers in order of appearance:
     ROW: while my %data = %($parser.get_line()) {
         if not @hdrs.elems {
             # this is the header row
@@ -127,7 +128,13 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
             last ROW;
         }
     }
+
     $fh.close;
+    # handle a bug in CSV::Parser where an empty last field is not handled
+    if @hdrs.tail !~~ /\S/ {
+        note "WARNING: header line has an empty last field";
+        @hdrs.pop;
+    }
 
     if $debug {
         say "Headers:";
