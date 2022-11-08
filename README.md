@@ -21,11 +21,13 @@ DESCRIPTION
 
     Converts a suitably-formatted CSV file into a class-generator module. 
 
-    For instance, given a CSV file named `persons.csv`, the program will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
+    For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
+
+    The user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`.
 
   * `use-class`
 
-    Uses a CSV file with class data to list all the data. It uses `CSV-AutoClass` routines provided for interrogating any suitable list of `CSV-AutoClass objects`.
+    Uses a CSV file with class data to list all the data. It uses `CSV-AutoClass` routines provided for interrogating any suitable list of `CSV-AutoClass objects`. It can be used as a template for creating programs that manipulate any CSV file with the same header attributes as the generated classes.
 
     Its `help` option has many more details about its usage.
 
