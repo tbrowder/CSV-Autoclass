@@ -10,14 +10,21 @@ my class Result {
     method success() { $.exit == 0 }
 }
 
-sub cvs2class(*@arg) is export {
-    my $p = run $*EXECUTABLE, "-I$base", "$base/bin/cvs2class", |@arg, :out, :err;
+sub csv2class(*@arg) is export {
+    my $p = run $*EXECUTABLE, "-I$base", "$base/bin/csv2class", |@arg, :out, :err;
     my $out = $p.out.slurp(:close);
     my $err = $p.err.slurp(:close);
     Result.new(:$out, :$err, :exit($p.exitcode));
 }
 
 sub use-class(*@arg) is export {
+    my $p = run $*EXECUTABLE, "-I$base", "$base/bin/use-class", |@arg, :out, :err;
+    my $out = $p.out.slurp(:close);
+    my $err = $p.err.slurp(:close);
+    Result.new(:$out, :$err, :exit($p.exitcode));
+}
+
+sub use-class-help(*@arg) is export {
     my $p = run $*EXECUTABLE, "-I$base", "$base/bin/use-class", |@arg, :out, :err;
     my $out = $p.out.slurp(:close);
     my $err = $p.err.slurp(:close);

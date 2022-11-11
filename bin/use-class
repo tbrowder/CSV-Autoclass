@@ -58,8 +58,7 @@ if not $csv-file.defined {
     $class-name = "Person";
 }
 
-my $load = "$dir/$class-name";
-if (try require ::($load)) === Nil {
+if (try require ::($class-name)) === Nil {
     die "FATAL: Failed to load module '$class-name'!";
 }
 
@@ -79,8 +78,8 @@ for @objs.kv -> $i, $o {
 
 #### subroutines ####
 sub get-csv-class-data(
-    :$class = 'Person'; 
-    :$data  = 'persons.csv', 
+    :$class-name = 'Person'; 
+    :$csv-file   = 'persons.csv', 
     :$dir   = '.',
     :$debug,
      --> List
@@ -89,17 +88,17 @@ sub get-csv-class-data(
     use CSV::Parser;
     use File::Find;
 
-    my $basename = $data.IO.basename;
-    my $ext      = $data.IO.extension.lc;
+    my $basename = $csv-file.IO.basename;
+    my $ext      = $csv-file.IO.extension.lc;
 
-    if (try require ::($class)) === Nil {
-        die "FATAL: Failed to load module '$class'!";
+    if (try require ::($class-name)) === Nil {
+        die "FATAL: Failed to load module '$class-name'!";
     }
 
     if $debug {
         note qq:to/HERE/;
         DEBUG from 'get-csv-class-data':
-          \$data = '$data'
+          \$csv-file = '$csv-file'
           \$dir  = '$dir'
           \$basename  = '$basename'
           \$extension = '$ext'
@@ -108,7 +107,7 @@ sub get-csv-class-data(
     }
 
     unless $ext eq 'csv' {
-        die "FATAL: Desired data file '$data' has no 'csv' extension";
+        die "FATAL: Desired CSV data file '$csv-file' has no 'csv' extension";
     }
 
     my @csv = find :$dir, :type('file'), :name($basename);
@@ -145,7 +144,7 @@ sub get-csv-class-data(
         if $debug {
             note "DEBUG: data {@data.raku}";
         }
-        my $obj = ::($class).new(|@data);
+        my $obj = ::($class-name).new(|@data);
         if $debug {
             note "DEBUG: object {$obj.last}";
             note $obj.last;

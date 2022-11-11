@@ -1,10 +1,15 @@
 Revision history for CSV-AutoClass
 
 {{$NEXT}}
-    - Define API 2: ability for the user to choose the class name
-    - Handle empty last field in header line
+    - Define API 2: 
+        + Ability for the user to choose the class name
+        + Handle empty last field in header line
+        + Add capability for preprocessing to remove
+          comments
+    - Remove auto-option based on data file name
     - Add tests
     - Remove internal lib line for ./bin programs
+    - Use latest version of CSV::Parser with work-arounds as necessary
 
 0.1.0  2022-10-27T17:58:04-05:00
     - Fix typos in README

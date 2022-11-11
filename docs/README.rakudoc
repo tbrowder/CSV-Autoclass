@@ -26,7 +26,7 @@ For instance, given a CSV file named C<persons.csv>, the program, by default,
 will generate module C<Person.rakumod>
 which can be used by another included program, C<use-class>, to demonstrate using the module.
 
-The user can specify another class name by entering C<class=MyClassName>
+Alternatively, the user can specify another class name by entering C<class=MyClassName>
 as an argument to C<csv2class>.
 
 =end item
@@ -35,11 +35,13 @@ as an argument to C<csv2class>.
 C<use-class>
 
 Uses a CSV file with class data to list all the data. 
-It uses C<CSV-AutoClass> routines provided for interrogating any suitable list of C<CSV-AutoClass objects>.
+It uses C<CSV-AutoClass> routines provided for interrogating any 
+suitable list of C<CSV-AutoClass>-defined objects.
 It can be used as a template for creating programs that
-manipulate any CSV file with the same header attributes as the generated classes.
+manipulate any CSV file with the same header attributes as 
+one of the generated classes.
 
-Its C<help> option has many more details about its usage.
+Its C<help> option has more details about its usage.
 
 =end item
 
@@ -102,7 +104,7 @@ Tom Browder <tbrowder@acm.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2022 Tom Browder
+© 2022 Tom Browder
 
 This library is free software; you may redistribute it or modify it under the Artistic License 2.0.
 

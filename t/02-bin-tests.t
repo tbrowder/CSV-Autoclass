@@ -2,22 +2,34 @@ use Test;
 use lib "t";
 use Util;
 use File::Temp;
-use CSV-AutoClass;
+#use CSV-AutoClass; # this is taken care of in Util.rakumod
+
+my @hdrs;
+my @data;
+my $tempdir = tempdir;
 
 my $csv-str = q:to/HERE/;
 index, name,
 1, Paul
 HERE
 
-my $csv-fil = "/tmp/test.csv";
+my $csv-fil = "$tempdir/persons.csv";
 spurt $csv-fil, $csv-str;
 
+dies-ok {
+    csv2class :f;
+}, "unknown named arg";
+
 lives-ok {
-    cvs2class;
+    csv2class $csv-fil;
 }
 
 lives-ok {
     use-class;
+}
+
+lives-ok {
+    use-class-help;
 }
 
 done-testing;

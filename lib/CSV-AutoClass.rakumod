@@ -6,67 +6,30 @@ constant $eg-class is export = "Person";
 sub use-class-help($prog, :$eg-class, :$eg-data) is export {
     print qq:to/HERE/;
     Usage:
-      $prog class=<class name> [...opts][help]
-          OR
-      $prog class=<class name> data=<class data file path> [...opts]
-          OR
-      $prog go [...opts]
-
-      The 'class' name is expected to be in the format described by
-      the 'CSV-AutoClass' module: a capitalized name of at least two
-      letters optionally followed by more valid term characters.
-
-      If the 'data' option is specified, it is expected to be a CSV
-      file and have a header row identical to the one that defined the
-      'class'.
-
-      ----
-
-      If the 'data' entry is NOT specified, the default is expected to
-      be 'class' name in plural form and lower case. That file must be
-      located at or below the current directory.
-
-      ---
-
-      If 'go' is entered. 'class' will be the example class
-      '$eg-class' and its data file '$eg-data'. If the data file is
-      not found at or below the current directory, an exception will
-      be thrown. If the '$eg-class' module is not found, an exception
-      will be thrown.
+      $prog class=<class name> data=<class data file path> [...opts][help]
 
     Options:
-        debug
+      dir=<directory to start search from> (default is '.')
+      debug
     HERE
     exit;
 }
 
-sub execute($csvfil, $cname) is export {
-    if not $csvfil.defined {
-        note "Writing $eg-data...";
-        if $eg-data.IO.e {
-            say "File '$eg-data' exists. Not overwriting.";
-        }
-        else {
-            write-example-csv;
-        }
-        exit;
-    }
+sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
+    my @attrs = get-csv-hdrs $csv-file;
 
-    my @attrs = get-csv-hdrs $csvfil;
-
-    my $ofil = write-class-def $cname, @attrs;
+    my $ofil = write-class-def $class-name, @attrs;
     say "See output CSV class module file '$ofil'";
 }
 
-
 sub write-example-csv is export {
-    my @lines = %?RESOURCES<persons.csv>.lines;
-    my $fh = open "persons.csv", :w;
+    my @lines = %?RESOURCES{$eg-data}.lines;
+    my $fh = open $eg-data, :w;
     for @lines {
-        #say $_
         $fh.say: $_
     }
     $fh.close;
+    say "See output example CSV data file '$eg-data'";
 }
 
 sub write-class-def($cname, @attrs, :$debug --> Str) is export {
