@@ -24,8 +24,8 @@ if not @*ARGS.elems {
 my $debug = 0;
 my $go    = 0;
 my $dir   = '.';
-my $csvfil;
-my $cname; # abc.csv => Abc [<-- Abc is the cname (class name)]
+my $csv-file;
+my $class-name; # abc.csv => Abc [<-- Abc is the cname (class name)]
 
 for @*ARGS {
     when /:i ^ '-'? h/ {
@@ -33,24 +33,14 @@ for @*ARGS {
         exit;
     }
     if $_.IO.r {
-        $csvfil = $_;
-        =begin comment
-        # we need at least a two-letter stem in order to create a class
-        if $csvfil ~~ /(<lower><lower>+) '.' csv $/ {
-            $cname = ~$0;
-            $cname = tc $cname;
-        }
-        else {
-            die "FATAL: Improper CVS file name format: '$csvfil'";
-        }
-        =end comment
+        $csv-file = $_;
         next;
     }
     when /:i class '=' (\S+) / {
-        $cname = ~$0;
+        $class-name = ~$0;
     }
     when /:i data '=' (\S+) / {
-        $csvfil = ~$0;
+        $csv-file = ~$0;
     }
     when /:i dir '=' (\S+) / {
         $dir = ~$0;
@@ -63,17 +53,18 @@ for @*ARGS {
     default { die "FATAL: Unknown arg '$_'" }
 }
 
-if not $csvfil.defined {
-    $csvfil = $eg-data;
-    $cname  = "Person";
+if not $csv-file.defined {
+    $csv-file   = $eg-data;
+    $class-name = "Person";
 }
 
-if (try require ::($cname)) === Nil {
-    die "FATAL: Failed to load module '$cname'!";
+my $load = "$dir/$class-name";
+if (try require ::($load)) === Nil {
+    die "FATAL: Failed to load module '$class-name'!";
 }
 
-say "Reading the CSV file and getting one $cname object per data line...";
-my @objs = get-csv-class-data :class($cname), :data($csvfil), :$debug;
+say "Reading the CSV file and getting one $class-name object per data line...";
+my @objs = get-csv-class-data :$class-name, :$csv-file, :$debug;
 #say "temp exit with {@objs.elems} objects"; exit;
 
 say "Showing each object:";
