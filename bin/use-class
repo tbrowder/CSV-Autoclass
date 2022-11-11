@@ -6,9 +6,7 @@ my $prog = $*PROGRAM.basename;
 if not @*ARGS.elems {
     print qq:to/HERE/;
     Usage:
-      $prog class=<class name> [...opts][help]
-          OR
-      $prog class=<class name> data=<class data file> [...opts]
+      $prog class=<class name> <class CSV data file> [...opts]
           OR
       $prog go [...opts]
 
@@ -16,6 +14,7 @@ if not @*ARGS.elems {
 
     Options:
       dir=<directory to start search from> (default is '.')
+      help
       debug
     HERE
 
@@ -35,6 +34,7 @@ for @*ARGS {
     }
     if $_.IO.r {
         $csvfil = $_;
+        =begin comment
         # we need at least a two-letter stem in order to create a class
         if $csvfil ~~ /(<lower><lower>+) '.' csv $/ {
             $cname = ~$0;
@@ -43,6 +43,7 @@ for @*ARGS {
         else {
             die "FATAL: Improper CVS file name format: '$csvfil'";
         }
+        =end comment
         next;
     }
     when /:i class '=' (\S+) / {
