@@ -1,19 +1,17 @@
 unit class Person;
 # WARNING - AUTO-GENERATED - EDITS WILL BE LOST
 
-has $.index;
-has $.email;
 has $.last;
 has $.first;
 has $.middle;
 has $.suffix;
 has $.nickname;
 has $.maiden;
-has $.sex;
-has $.member;
-has $.;
+has $.birth;
+has $.baptized;
+has $.joined;
 
-method new($index, $email, $last, $first, $middle, $suffix, $nickname, $maiden, $sex, $member, $) {
-    self.bless(:$index, :$email, :$last, :$first, :$middle, :$suffix, :$nickname, :$maiden, :$sex, :$member, :$);
+method new($last, $first, $middle, $suffix, $nickname, $maiden, $birth, $baptized, $joined) {
+    self.bless(:$last, :$first, :$middle, :$suffix, :$nickname, :$maiden, :$birth, :$baptized, :$joined);
 }
 

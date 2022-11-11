@@ -1,21 +1,3 @@
-index, email                       , last    , first   , middle  , suffix, nickname, maiden, sex, member,
-1    , cfrontz@gbumc.org           , Frontz  , Clarence, Martin  ,
-2    , lessismore48@aol.com        , Collette, Deborah , Jean    ,
-3    , vernerhodes@mac.com         , Rhodes  , Verne   , Lee     ,
-4    , annrhodes@me.com            , Rhodes  , Ann     
-5    , stevegundrum@yahoo.com      , Gundrum , Steve 
-6    , flyrisher@aol.com           , Gundrum , Burdettea,        ,       , Burdie
-7    , terriemdiamond@yahoo.com    , Diamond , Terrie   , Ann    ,       ,         , McOsker
-8    , bbbruner3@gmail.com         , Bruner  , Robert   , R.     , III   , Bobby
-9    , uscbird43@gmail.com         , Bruner  , Dianne   , Love   ,       ,         , Love
-10   , cdobrand@yahoo.com          , Brand   , Diane    ,        ,       ,         , O'Brian
-11   , raybrand@ymail.com          , Brand   , Raymond  , A.,    , Ray
-12   , phebe112208@yahoo.com       , Linger  , Phebe    , Annelle,       ,         , Miller
-13   ,                             , Fort    ,          ,        ,       , Billie
-14   ,                             , Tunison ,          ,        ,       , Pat
-15   , dad85roses@aol.com          , Dunham  , Walter   , E.     ,       , Walt
-16   , dad85roses@aol.com          , Dunham  , Gloria   , Joyce  ,       , Joyce   , Raynor
-17   , betty.barfield@att.net      , Barfield, Betty    ,        ,       ,         , Betty
-18   , rick@spragueconstruction.com, Sprague ,          ,        ,       , Rick
-19   ,                             , Sprague ,          ,        ,       , Kathy
-
+last   , first , middle , suffix, nickname, maiden, birth     , baptized, joined
+Browder, Thomas, Malon  , Jr    , Tom     ,       , 1943-12-31,         , 2021-00-00
+Browder, Lauren, Russell,       , Missy   , Lee   , 1943-11-06,         , 2021-00-00
