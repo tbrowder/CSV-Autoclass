@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/test.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions)
+[![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/linux.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions) [![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/macos.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions) [![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/windows.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions)
 
 NAME
 ====
