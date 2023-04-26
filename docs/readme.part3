@@ -1,0 +1,18 @@
+=end code
+
+Note 14 photos of human faces are available in the C<resources/images>
+directory of the distribution. They were all obtained from the
+Debian C</use/share> directory and are free to use for any purpose.
+They are useful for experimenting with this module and its programs.
+
+=head1 AUTHOR
+
+Tom Browder <tbrowder@acm.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+© 2022 Tom Browder
+
+This library is free software; you may redistribute it or modify it under the Artistic License 2.0.
+
+=end pod
