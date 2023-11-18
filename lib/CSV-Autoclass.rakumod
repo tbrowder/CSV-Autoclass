@@ -16,7 +16,7 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 }
 
 sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
-    my @attrs = get-csv-hdrs $csv-file;
+    my @attrs = get-csv-hdrs $csv-file, :$debug;
 
     my $ofil = write-class-def $class-name, @attrs;
     say "See output CSV class module file '$ofil'";
@@ -75,24 +75,45 @@ sub write-class-def($cname, @attrs, :$debug --> Str) is export {
 
 sub get-csv-hdrs($fnam, :$debug --> List) is export {
     use CSV::Parser;
+    use Text::Utils :strip-comment;
+
+    # first elim comments and blank lines
+    my @lines;
+    for $fnam.IO.lines -> $line is copy {
+        $line = strip-comment $line;
+        next if $line !~~ /\S/;       
+        @lines.push: $line;
+    }
+    spurt $fnam, @lines.join("\n");
     my $fh = open $fnam, :r;
 
-    my $parser = CSV::Parser.new: :file_handle($fh);
+    my $parser = CSV::Parser.new: :file_handle($fh), :contains_header_row;
+    my %data = %($parser.get_line());
+    my $hdrs = $parser.headers;
 
-    my @hdrs; # this is list of the first row headers in order of appearance:
-    ROW: while my %data = %($parser.get_line()) {
-        if not @hdrs.elems {
-            # this is the header row
-            my @idx = %data.keys.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
-            for 0..^@idx.elems {
-                my $val = %data{$_}.trim;
-                @hdrs.push: $val;
-            }
-            last ROW;
-        }
+    # keys are column number, 0..$n-1
+    my @hdrs-nums = $hdrs.keys.sort({ $^a <=> $^b });
+    my @hdrs;
+    for @hdrs-nums -> $n {
+        my $s = $hdrs{$n};
+        $s .= trim;
+        @hdrs.push: $s;
     }
-
+    if $debug {
+        note "DEBUG: {dd $hdrs}";
+        note "DEBUG: headers:";
+        for $hdrs.kv -> $k, $v {
+            note "  key: '$k'";
+            note "      value: '$v'";
+        }
+        note "sorted header values:";
+        note "  $_" for @hdrs;
+        note "DEBUG: early exit"; exit;
+    }
     $fh.close;
+    @hdrs
+
+    =begin comment
     # handle a bug in CSV::Parser where an empty last field is not handled
     if @hdrs.tail !~~ /\S/ {
         note "WARNING: header line has an empty last field";
@@ -106,4 +127,5 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
     }
 
     @hdrs
+    =end comment
 }

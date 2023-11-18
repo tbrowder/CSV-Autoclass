@@ -2,7 +2,6 @@ use Test;
 use lib "t";
 use Util;
 use File::Temp;
-#use CSV-AutoClass; # this is taken care of in Util.rakumod
 
 my @hdrs;
 my @data;
@@ -13,8 +12,17 @@ index, name,
 1, Paul
 HERE
 
+my $csv-str2 = q:to/HERE/;
+# comment
+index, name,
+
+1, Paul
+HERE
+
 my $csv-fil = "$tempdir/persons.csv";
 spurt $csv-fil, $csv-str;
+my $csv-fil2 = "$tempdir/groups.csv";
+spurt $csv-fil2, $csv-str2;
 
 dies-ok {
     csv2class :f;
@@ -23,6 +31,10 @@ dies-ok {
 lives-ok {
     csv2class $csv-fil;
 }
+
+lives-ok {
+    csv2class $csv-fil2;
+}, "test comments and blank lines";
 
 lives-ok {
     use-class;

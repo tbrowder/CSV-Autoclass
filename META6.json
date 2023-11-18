@@ -13,10 +13,10 @@
   ],
   "description": "Define a class with a CSV file and provide data for a list of class objects in the same file",
   "license": "Artistic-2.0",
-  "name": "CSV-AutoClass",
+  "name": "CSV-Autoclass",
   "perl": "6.d",
   "provides": {
-    "CSV-AutoClass": "lib/CSV-AutoClass.rakumod"
+    "CSV-Autoclass": "lib/CSV-Autoclass.rakumod"
   },
   "resources": [
   ],
