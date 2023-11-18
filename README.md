@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/linux.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions) [![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/macos.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions) [![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/windows.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions)
+[![Actions Status](https://github.com/tbrowder/CSV-Autoclass/actions/workflows/linux.yml/badge.svg)](https://github.com/tbrowder/CSV-Autoclass/actions) [![Actions Status](https://github.com/tbrowder/CSV-Autoclass/actions/workflows/macos.yml/badge.svg)](https://github.com/tbrowder/CSV-Autoclass/actions) [![Actions Status](https://github.com/tbrowder/CSV-Autoclass/actions/workflows/windows.yml/badge.svg)](https://github.com/tbrowder/CSV-Autoclass/actions)
 
 NAME
 ====
@@ -22,6 +22,8 @@ DESCRIPTION
     Converts a suitably-formatted CSV file into a class-generator module. 
 
     For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
+
+    Note the convention is to expect the base CSV file name to be constructed of a lower-case, plural name, using only ASCII letters 'a..z' plus the suffx '.csv'. The resulting class name will be a capitalized and plural version of the base file's stem.
 
     Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`.
 
@@ -74,7 +76,7 @@ Tom Browder <tbrowder@acm.org>
 COPYRIGHT AND LICENSE
 =====================
 
-© 2022 Tom Browder
+© 2022-2023 Tom Browder
 
 This library is free software; you may redistribute it or modify it under the Artistic License 2.0.
 
