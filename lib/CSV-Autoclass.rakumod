@@ -1,4 +1,4 @@
-unit class CSV-AutoClass;
+unit class CSV-Autoclass;
 
 constant $eg-data  is export = "persons.csv";
 constant $eg-class is export = "Person";

@@ -1,6 +1,6 @@
 #!/usr/bin/env raku
 
-use CSV-AutoClass;
+use CSV-Autoclass;
 
 my $prog = $*PROGRAM.basename;
 if not @*ARGS.elems {

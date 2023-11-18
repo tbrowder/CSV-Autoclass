@@ -1,21 +1,21 @@
-[![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/linux.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions) [![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/macos.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions) [![Actions Status](https://github.com/tbrowder/CSV-AutoClass/actions/workflows/windows.yml/badge.svg)](https://github.com/tbrowder/CSV-AutoClass/actions)
+[![Actions Status](https://github.com/tbrowder/CSV-Autoclass/actions/workflows/linux.yml/badge.svg)](https://github.com/tbrowder/CSV-Autoclass/actions) [![Actions Status](https://github.com/tbrowder/CSV-Autoclass/actions/workflows/macos.yml/badge.svg)](https://github.com/tbrowder/CSV-Autoclass/actions) [![Actions Status](https://github.com/tbrowder/CSV-Autoclass/actions/workflows/windows.yml/badge.svg)](https://github.com/tbrowder/CSV-Autoclass/actions)
 
 NAME
 ====
 
-**CSV-AutoClass** - Define a class with a CSV file and provide data for a list of class objects in the same file
+**CSV-Autoclass** - Define a class with a CSV file and provide data for a list of class objects in the same file
 
 SYNOPSIS
 ========
 
 ```raku
-use CSV-AutoClass;
+use CSV-Autoclass;
 ```
 
 DESCRIPTION
 ===========
 
-**CSV-AutoClass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
+**CSV-Autoclass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
 
   * `csv2class` 
 
@@ -23,11 +23,13 @@ DESCRIPTION
 
     For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
 
+    Note the convention is to expect the base CSV file name to be constructed of a lower-case, plural name, using only ASCII letters 'a..z' plus the suffx '.csv'. The resulting class name will be a capitalized and plural version of the base file's stem.
+
     Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`.
 
   * `use-class`
 
-    Uses a CSV file with class data to list all the data. It uses `CSV-AutoClass` routines provided for interrogating any suitable list of `CSV-AutoClass`-defined objects. It can be used as a template for creating programs that manipulate any CSV file with the same header attributes as one of the generated classes.
+    Uses a CSV file with class data to list all the data. It uses `CSV-Autoclass` routines provided for interrogating any suitable list of `CSV-Autoclass`-defined objects. It can be used as a template for creating programs that manipulate any CSV file with the same header attributes as one of the generated classes.
 
     Its `help` option has more details about its usage.
 

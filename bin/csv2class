@@ -1,6 +1,6 @@
 #!/usr/bin/env raku
 
-use CSV-AutoClass;
+use CSV-Autoclass;
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
