@@ -1,0 +1,74 @@
+=begin pod
+
+=head1 NAME
+
+B<GraphicsMagick> - Provides programs and functions for manipulating images
+
+=head1 SYNOPSIS
+
+=begin code :lang<raku>
+
+use GraphicsMagick;
+
+=end code
+
+=head1 DESCRIPTION
+
+B<GraphicsMagickUtils> Uses the L<http://graphicsmagick.org> suite of tools to
+provide command-line (CL) programs and functions for manipulating images programmatically.
+
+Your host computer B<must> have the GraphicsMagic package, with its C<gm> CL program already installed.
+
+To install that package on a Debian host:
+
+=begin code
+$ sudo aptitude install graphicsmagick
+=end code
+
+=head2 CL Programs
+
+=head3 B<photo>
+
+A program designed for processing images for display on a website. 
+The program uses the I<graphicsmagick>'s command-line program I<gm> and
+some of its myriad of commands and options, all driven by Raku's I<run> routine.
+
+Its default action, given the name of
+an image file, is to determine and display:
+
+=item The width and height of the image
+=item The coordinates of the image's center
+
+The following tables show the currently planned
+modes and options and their implementation status.
+
+=begin table :caption<Modes>
+Mode | Implemented? | Notes
+-----+--------------+------
+show | Yes          |
+show all | Yes
+*crop | No | shows input data
+execute | No | No X display required
+display | No | Requires an X window
+=end table
+
+*Note: If an X display is available, the C<crop> mode will also
+display the original image with an overlay of the crop
+selection.
+
+=begin table :caption<Options>
+Option | Implemented? | Notes
+-----+--------------+------
+color | Yes | value is set
+border | Yes | value is set
+debug | Yes |
+=end table
+
+Other features are planned, PRs and feature requests are
+welcome.
+
+Execute program C<photo> with the C<help> option to see how
+to use it:
+
+=begin code
+$ photo help

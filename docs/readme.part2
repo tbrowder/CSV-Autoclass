@@ -1,0 +1,39 @@
+
+Usage: photo image [mode] [options...][help]
+
+This program uses the 'GraphicsMagick' library to manipulate
+an image for use on a photo montage website or a photo album.
+
+It can crop an image to a default 100x100 size about a selected 
+point. Dimensions and points are given in pixels: X=width, Y=height.
+The coordinate system used has its origin at the top-left corner of
+the image with positive values increasing to the right and down.
+
+Output images are written to the local directory unless the 'to=X'
+option is use.
+
+Modes:
+  display      - With an X display, shows the raw image
+  show         - Shows primary image attributes
+  show all     - Shows all available attibutes
+  crop=WxH+X+Y - Crops the image to WxH pixels centered at X and Y of the 
+                 image. If the width and height are not specified, they 
+                 default to 100 pixels. If the X and Y are not specified,
+                 they default to the center of the image. If one of either 
+                 pair of values are specified, it is assumed to be the 
+                 value of both. If only one value is entered, all four 
+                 arguments take that value.
+
+                 If an X display is available, shows a copy of the original 
+                 with a border superimposed upon the selected crop area of 
+                 the picture.
+  execute      - Executes the crop to produce a new image with the current 
+                 set of crop parameters
+
+Options:
+  color=X    - Changes the border color to X [default: white]
+  border=X   - Changes the border with to X pixels [default: 2]
+  to=X       - Output directory [default: '.']
+  name=X     - Output image name [default: '$image.mod']
+  debug      - Developer use
+
