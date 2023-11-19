@@ -80,7 +80,7 @@ for @objs.kv -> $i, $o {
 sub get-csv-class-data(
     :$class-name = 'Person'; 
     :$csv-file   = 'persons.csv', 
-    :$dir   = '.',
+    :$dir = '.',
     :$debug,
      --> List
 ) is export {
@@ -90,6 +90,8 @@ sub get-csv-class-data(
 
     my $basename = $csv-file.IO.basename;
     my $ext      = $csv-file.IO.extension.lc;
+
+    use lib "$dir";
 
     if (try require ::($class-name)) === Nil {
         die "FATAL: Failed to load module '$class-name'!";
