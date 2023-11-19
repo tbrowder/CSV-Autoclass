@@ -2,6 +2,7 @@ use Test;
 use lib "t";
 use Util;
 use File::Temp;
+# use CSV-Autoclass; # this is taken care of in Util.rakumod
 
 my @hdrs;
 my @data;
