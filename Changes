@@ -1,6 +1,8 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+
+0.2.0  2023-11-18T19:27:17-06:00
     - Renamed CSV-Autoclass (old name CSV-AutoClass)
     - Define API 2: 
         + Ability for the user to choose the class name
