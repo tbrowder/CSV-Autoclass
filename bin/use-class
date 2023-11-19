@@ -2,6 +2,8 @@
 
 use CSV-Autoclass;
 
+use lib '.';
+
 my $prog = $*PROGRAM.basename;
 if not @*ARGS.elems {
     print qq:to/HERE/;
@@ -78,8 +80,8 @@ for @objs.kv -> $i, $o {
 
 #### subroutines ####
 sub get-csv-class-data(
-    :$class-name = 'Person'; 
-    :$csv-file   = 'persons.csv', 
+    :$class-name = 'Person';
+    :$csv-file   = 'persons.csv',
     :$dir = '.',
     :$debug,
      --> List
@@ -90,9 +92,6 @@ sub get-csv-class-data(
 
     my $basename = $csv-file.IO.basename;
     my $ext      = $csv-file.IO.extension.lc;
-
-    # lib paths must be constants
-    use lib '.';
 
     if (try require ::($class-name)) === Nil {
         die "FATAL: Failed to load module '$class-name'!";

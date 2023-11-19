@@ -1,11 +1,14 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Added a new sub module
     - Moved all bin subs to lib modules
-
+    - Added better tests
+    - Added "use lib '.';" to the bin files so a local class module
+        file can be found
 0.2.0  2023-11-18T19:27:17-06:00
     - Renamed CSV-Autoclass (old name CSV-AutoClass)
-    - Define API 2: 
+    - Define API 2:
         + Ability for the user to choose the class name
         + Handle empty last field in header line
         + Add capability for preprocessing to remove

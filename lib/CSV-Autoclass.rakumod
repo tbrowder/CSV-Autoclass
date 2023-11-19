@@ -1,131 +1,58 @@
 unit class CSV-Autoclass;
 
-constant $eg-data  is export = "persons.csv";
-constant $eg-class is export = "Person";
+use CSV-Autoclass::Internals;
 
-sub use-class-help($prog, :$eg-class, :$eg-data) is export {
+sub run-no-args is export {
     print qq:to/HERE/;
-    Usage:
-      $prog class=<class name> data=<class data file path> [...opts][help]
+    Usage: {$*PROGRAM.basename} <csv file> class=<class-name> | go [...opts]
 
-    Options:
-      dir=<directory to start search from> (default is '.')
-      debug
+    Given a CSV data file with the first row
+    being a header row, produce a class that has
+    the same attributes and a 'new' method that can create
+    a class object from a data line in that file.
+
+    If the 'go' arg is entered, the example CSV input file
+    '$eg-data' and its class definition file '$eg-class.rakumod' are
+    created in the current directory.
+
+    Options
+        debug
     HERE
+
     exit;
-}
+} # sub run-no-args is export {
 
-sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
-    my @attrs = get-csv-hdrs $csv-file, :$debug;
+sub run-with-args(@*ARGS) is export {
 
-    my $ofil = write-class-def $class-name, @attrs;
-    say "See output CSV class module file '$ofil'";
-}
+    my $debug  = 0;
+    my $go     = 0;
+    my $csv-file;
+    my $class-name; # The user's chosen class name
 
-sub write-example-csv is export {
-    my @lines = %?RESOURCES{$eg-data}.lines;
-    my $fh = open $eg-data, :w;
-    for @lines {
-        $fh.say: $_
-    }
-    $fh.close;
-    say "See output example CSV data file '$eg-data'";
-}
-
-sub write-class-def($cname, @attrs, :$debug --> Str) is export {
-    my $fnam = $cname ~ ".rakumod";
-    my $fh = open $fnam, :w;
-    $fh.say: "unit class $cname;";
-    $fh.say: "# WARNING - AUTO-GENERATED - EDITS WILL BE LOST";
-
-    =begin comment
-    # get length of longest attr
-    my $len = 0;
-    for @attrs -> $a {
-        my $nc = $a.chars;
-        $len = $nc if $len < $nc;
-    }
-    =end comment
-
-    # write attrs neatly
-    $fh.say();
-    for @attrs -> $a {
-        $fh.say: "has \$.$a;";
-    }
-    $fh.say();
-
-    # need a new method for the positional args
-    my $argstr = @attrs.join(', $');
-    $argstr = '$' ~ $argstr;
-    say "DEBUG: argstr: '$argstr'" if $debug;
-
-    my $argstr2 = @attrs.join(', :$');
-    $argstr2 = ':$' ~ $argstr2;
-    say "DEBUG: argstr2: '$argstr2'" if $debug;
-
-    $fh.say: qq:to/HERE/;
-    method new($argstr) \{
-        self.bless($argstr2);
-    }
-    HERE
-
-    $fh.close;
-    $fnam
-}
-
-sub get-csv-hdrs($fnam, :$debug --> List) is export {
-    use CSV::Parser;
-    use Text::Utils :strip-comment;
-
-    # first elim comments and blank lines
-    my @lines;
-    for $fnam.IO.lines -> $line is copy {
-        $line = strip-comment $line;
-        next if $line !~~ /\S/;       
-        @lines.push: $line;
-    }
-    spurt $fnam, @lines.join("\n");
-    my $fh = open $fnam, :r;
-
-    my $parser = CSV::Parser.new: :file_handle($fh), :contains_header_row;
-    my %data = %($parser.get_line());
-    my $hdrs = $parser.headers;
-
-    # keys are column number, 0..$n-1
-    my @hdrs-nums = $hdrs.keys.sort({ $^a <=> $^b });
-    my @hdrs;
-    for @hdrs-nums -> $n {
-        my $s = $hdrs{$n};
-        $s .= trim;
-        @hdrs.push: $s;
-    }
-    if $debug {
-        note "DEBUG: {dd $hdrs}";
-        note "DEBUG: headers:";
-        for $hdrs.kv -> $k, $v {
-            note "  key: '$k'";
-            note "      value: '$v'";
+    for @*ARGS {
+        if $_.IO.r {
+            $csv-file = $_;
+            next;
         }
-        note "sorted header values:";
-        note "  $_" for @hdrs;
-        note "DEBUG: early exit"; exit;
-    }
-    $fh.close;
-    @hdrs
-
-    =begin comment
-    # handle a bug in CSV::Parser where an empty last field is not handled
-    if @hdrs.tail !~~ /\S/ {
-        note "WARNING: header line has an empty last field";
-        @hdrs.pop;
+        when /'class=' (\S+) / {
+            $class-name = ~$0;
+        }
+        when /:i ^g/ { $go    = 1 }
+        when /:i ^d/ { $debug = 1 }
+        default { die "FATAL: Unknown arg '$_'" }
     }
 
-    if $debug {
-        say "Headers:";
-        my $h = @hdrs.join('|');
-        say $h;
+    if $csv-file.defined {
+        die "FATAL: No class name entered" if not $class-name.defined;
+        # create the class
+        create-class :$class-name, :$csv-file, :$debug;
+    }
+    elsif $go {
+        write-example-csv;
+        create-class :class-name($eg-class), :csv-file($eg-data);
+    }
+    else {
+        die "FATAL: but why am I here??";
     }
 
-    @hdrs
-    =end comment
-}
+} # sub run-with-args is export {
