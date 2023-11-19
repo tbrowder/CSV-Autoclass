@@ -1,6 +1,7 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Moved all bin subs to lib modules
 
 0.2.0  2023-11-18T19:27:17-06:00
     - Renamed CSV-Autoclass (old name CSV-AutoClass)
