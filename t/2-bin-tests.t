@@ -1,45 +1,51 @@
 use Test;
-
+use lib "t";
+use Util;
 use File::Temp;
-use CSV-Autoclass; 
+# use CSV-Autoclass; # this is taken care of in Util.rakumod
 
-my $debug = 0;
+my @hdrs;
+my @data;
+my $tempdir = tempdir;
 
-plan 1;
+my $csv-str = q:to/HERE/;
+index, name,
+1, Paul
+HERE
 
-# test proper sort
-my @sorted-keys = < 
-     0  1  2  3  4  5  6  7  8  9 
-    10 11 12 13 14 15 16 17 18 19 
-    20 21 22 23 24 25 26 27 28 29 
->;
+my $csv-str2 = q:to/HERE/;
+# comment
+index, name,
 
-# get a randomly picked set of keys
-my @rand = @sorted-keys.pick: *;
+1, Paul
+HERE
 
-if $debug {
-    say "random keys:";
-    print "$_ " for @rand;
-    say();
+my $csv-fil = "$tempdir/persons.csv";
+spurt $csv-fil, $csv-str;
+my $csv-fil2 = "$tempdir/groups.csv";
+spurt $csv-fil2, $csv-str2;
+
+dies-ok {
+    csv2class :f;
+}, "unknown named arg";
+
+lives-ok {
+    csv2class $csv-fil;
 }
 
-my @idx = @rand.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
-if $debug {
-    say "sorted keys:";
-    print "$_ " for @idx;
-    say();
+lives-ok {
+    csv2class $csv-fil2;
+}, "test comments and blank lines";
+
+lives-ok {
+    use-class;
 }
 
-is-deeply @sorted-keys, @idx;
+lives-ok {
+    use-class-help;
+}
 
-=finish
-
-# this is the header row
-            my @idx = %data.keys.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
-            for 0..^@idx.elems {
-                my $val = %data{$_}.trim;
-                @hdrs.push: $val;
-            }
+done-testing;
 
 =finish
 
