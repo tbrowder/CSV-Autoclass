@@ -27,8 +27,9 @@ another included program, C<use-class>, to demonstrate using the module.
 
 The current B<convention> is to expect the base CSV file name to be
 constructed of a lower-case, plural name, using only ASCII letters
-'a..z-' plus the suffx '.csv'. The resulting class name will be a
-capitalized and plural version of the base file's stem. For example,
+'a..z', the character '-' (following the Raku requirement for valid
+identifiers), plus the suffx '.csv'. The resulting class name will be
+a capitalized and plural version of the base file's stem. For example,
 given a file 'my-modules.csv', the default class produced will be
 'My-module' in file 'My-module.rakumod'.
 

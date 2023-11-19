@@ -24,7 +24,7 @@ DESCRIPTION
 
     For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
 
-    The current **convention** is to expect the base CSV file name to be constructed of a lower-case, plural name, using only ASCII letters 'a..z-' plus the suffx '.csv'. The resulting class name will be a capitalized and plural version of the base file's stem. For example, given a file 'my-modules.csv', the default class produced will be 'My-module' in file 'My-module.rakumod'.
+    The current **convention** is to expect the base CSV file name to be constructed of a lower-case, plural name, using only ASCII letters 'a..z', the character '-' (following the Raku requirement for valid identifiers), plus the suffx '.csv'. The resulting class name will be a capitalized and plural version of the base file's stem. For example, given a file 'my-modules.csv', the default class produced will be 'My-module' in file 'My-module.rakumod'.
 
       * my-modules.csv => My-modules.rakumod
 
