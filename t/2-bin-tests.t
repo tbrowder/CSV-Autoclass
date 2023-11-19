@@ -1,8 +1,9 @@
 use Test;
 use lib "t";
-use Util;
+#use Util;
 use File::Temp;
-# use CSV-Autoclass; # this is taken care of in Util.rakumod
+use CSV-Autoclass;
+use CSV-Autoclass::Internals;
 
 my @hdrs;
 my @data;
@@ -25,24 +26,36 @@ spurt $csv-fil, $csv-str;
 my $csv-fil2 = "$tempdir/groups.csv";
 spurt $csv-fil2, $csv-str2;
 
-dies-ok {
-    csv2class :f;
-}, "unknown named arg";
+lives-ok {
+    csv2class-no-args
+}, "";
 
 lives-ok {
-    csv2class $csv-fil;
+    my @args = "csv=$csv-fil";
+    csv2class-with-args(@args)
 }
 
+done-testing;
+
+=finish
 lives-ok {
-    csv2class $csv-fil2;
+    csv2class csv=$csv-fil2
 }, "test comments and blank lines";
 
 lives-ok {
-    use-class;
+    use-class
 }
 
+$csv-str = q:to/HERE/;
+index, name,
+1, CSV-Autoclass
+HERE
+
+$csv-fil = "$tempdir/my-modules.csv";
+my $class = "My-modules";
+spurt $csv-fil, $csv-str;
 lives-ok {
-    use-class-help;
+    csv2class csv=$csv-fil
 }
 
 done-testing;

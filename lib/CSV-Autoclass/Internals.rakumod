@@ -1,8 +1,9 @@
-unit module CSV-Autoclass::Internals;
+unit module CSV-Autoclass::Internals is export(:ALL);
 
 constant $eg-data  is export = "persons.csv";
 constant $eg-class is export = "Person";
 
+=begin comment
 sub use-class-help($prog, :$eg-class, :$eg-data) is export {
     print qq:to/HERE/;
     Usage:
@@ -14,6 +15,7 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
     HERE
     exit;
 } # sub use-class-help($prog, :$eg-class, :$eg-data) is export {
+=end comment
 
 sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
     my @attrs = get-csv-hdrs $csv-file, :$debug;

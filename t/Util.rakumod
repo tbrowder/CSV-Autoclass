@@ -24,9 +24,11 @@ sub use-class(*@arg) is export {
     Result.new(:$out, :$err, :exit($p.exitcode));
 }
 
+=begin comment
 sub use-class-help(*@arg) is export {
-    my $p = run $*EXECUTABLE, "-I$base", "$base/bin/use-class", |@arg, :out, :err;
+    my $p = run $*EXECUTABLE, "-I$base", "$base/bin/use-class-help", |@arg, :out, :err;
     my $out = $p.out.slurp(:close);
     my $err = $p.err.slurp(:close);
     Result.new(:$out, :$err, :exit($p.exitcode));
 }
+=end comment

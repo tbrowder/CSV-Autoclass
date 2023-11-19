@@ -9,15 +9,18 @@ B<CSV-Autoclass> - Define a class with a CSV file and provide data for a list of
 =begin code :lang<raku>
 use CSV-Autoclass;
 csv2class # OUTPUT: «<usage information>␤»
+use-class # OUTPUT: «<usage information>␤»
 =end code
 
 =head1 DESCRIPTION
+
+Note: This is API 2. Previoues versions should NOT be used.
 
 B<CSV-Autoclass> is a module with two accompanying programs. For
 each program, execute it without any arguments to see instructions.
 
 =begin item
-C<csv2class>
+C<csv2class> csv=my-modules.csv
 
 Converts a suitably-formatted CSV file into a class-generator module.
 
@@ -27,16 +30,22 @@ another included program, C<use-class>, to demonstrate using the module.
 
 The current B<convention> is to expect the base CSV file name to be
 constructed of a lower-case, plural name, using only ASCII letters
-'a..z', the character '-' (following the Raku requirement for valid
+'a..z' and the character '-' (following the Raku requirement for valid
 identifiers), plus the suffx '.csv'. The resulting class name will be
 a capitalized and plural version of the base file's stem. For example,
 given a file 'my-modules.csv', the default class produced will be
 'My-module' in file 'My-module.rakumod'.
 
+For ease of operation, using the conventional naming method is
+recommended:
+
 =item my-modules.csv => My-modules.rakumod
 
 Alternatively, the user can specify another class name by entering
-C<class=MyClassName> as an argument to C<csv2class>.
+C<class=MyClassName> as an argument to C<csv2class>.  But, due to the
+myriad of input argument possibilities, not many have been tested yet.
+PRs are always welcome.
+
 =end item
 
 =begin item

@@ -1,22 +1,90 @@
-unit class CSV-Autoclass;
+unit module CSV-Autoclass;
 
 use CSV-Autoclass::Internals;
+
+sub csv2class-no-args is export {
+    my $prog = $*PROGRAM.basename;
+    print qq:to/HERE/;
+    Usage:
+      $prog csv=<csv file> [...opts]
+          OR
+      $prog eg
+
+    Given a CSV data file with the first row  being a header
+    row, produce a class that has the same attributes and a
+    'new' method that can create a class object from a data
+    line in that file.
+
+    If the 'eg' arg is entered, the example CSV input file
+    '$eg-data' and its class definition file '$eg-class.rakumod'
+    are created in the current directory.
+
+    Options:
+      class=X - where X is the desired class name
+      dir=X   - where X is the directory to operate in (default: '.')
+    HERE
+} # sub csv2class-no-args is export {
+
+sub csv2class-with-args(@*ARGS) is export {
+
+    my $debug  = 0;
+    my $eg     = 0;
+    my $csv-file;
+    my $class-name; # The user's chosen class name
+
+    for @*ARGS {
+        =begin comment
+        if $_.IO.r {
+            $csv-file = $_;
+            next;
+        }
+        when /'class=' (\S+) / {
+            $class-name = ~$0;
+        }
+        =end comment
+        when /'csv=' (\S+) / {
+            $csv-file = ~$0;
+            unless $csv-file.IO.r {
+                die "FATAL: input csv file '$csv-file' is NOT a file.";
+            }
+        }
+        when /:i ^eg/ { $eg    = 1 }
+        when /:i ^d/  { $debug = 1 }
+        default { die "FATAL: Unknown arg '$_'" }
+    }
+
+    if $csv-file.defined {
+        #die "FATAL: No class name entered" if not $class-name.defined;
+        # create the class
+        #create-class :$class-name, :$csv-file, :$debug;
+        create-class :csv($csv-file), :$debug;
+    }
+    elsif $eg {
+        write-example-csv;
+        create-class :class-name($eg-class), :csv-file($eg-data);
+    }
+    else {
+        die "FATAL: but why am I here??";
+    }
+
+} # sub csv2class-with-args is export {
 
 sub use-class-no-args is export {
     my $prog = $*PROGRAM.basename;
 
     print qq:to/HERE/;
     Usage:
-      $prog class=<class name> <class CSV data file> [...opts]
+      $prog class=<class name> [...opts]
           OR
-      $prog go [...opts]
+      $prog eg
 
-      Use the 'help' option for detailed instructions.
+    If the 'eg' arg is entered, the example CSV input file
+    '$eg-data' and its class definition file '$eg-class.rakumod'
+    are exercised.
 
     Options:
-      dir=<directory to start search from> (default is '.')
-      help
-      debug
+      csv=X - where X is the desired CSV data file basename
+      dir=X - where X is the directory to begin search (default: '.')
     HERE
 } # sub use-class-no-args is export {
 
@@ -30,10 +98,12 @@ sub use-class-with-args(@*ARGS) is export {
     my $class-name; # abc.csv => Abc [<-- Abc is the cname (class name)]
 
     for @*ARGS {
+        =begin comment
         when /:i ^ '-'? h/ {
             use-class-help $prog, :$eg-class, :$eg-data;
             exit;
         }
+        =end comment
         if $_.IO.r {
             $csv-file = $_;
             next;
@@ -79,56 +149,3 @@ sub use-class-with-args(@*ARGS) is export {
     }
 
 } # sub use-class-with-args is export {
-
-sub csv2class-no-args is export {
-    print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} <csv file> class=<class-name> | go [...opts]
-
-    Given a CSV data file with the first row
-    being a header row, produce a class that has
-    the same attributes and a 'new' method that can create
-    a class object from a data line in that file.
-
-    If the 'go' arg is entered, the example CSV input file
-    '$eg-data' and its class definition file '$eg-class.rakumod' are
-    created in the current directory.
-
-    Options
-        debug
-    HERE
-} # sub csv2class-no-args is export {
-
-sub csv2class-with-args(@*ARGS) is export {
-
-    my $debug  = 0;
-    my $go     = 0;
-    my $csv-file;
-    my $class-name; # The user's chosen class name
-
-    for @*ARGS {
-        if $_.IO.r {
-            $csv-file = $_;
-            next;
-        }
-        when /'class=' (\S+) / {
-            $class-name = ~$0;
-        }
-        when /:i ^g/ { $go    = 1 }
-        when /:i ^d/ { $debug = 1 }
-        default { die "FATAL: Unknown arg '$_'" }
-    }
-
-    if $csv-file.defined {
-        die "FATAL: No class name entered" if not $class-name.defined;
-        # create the class
-        create-class :$class-name, :$csv-file, :$debug;
-    }
-    elsif $go {
-        write-example-csv;
-        create-class :class-name($eg-class), :csv-file($eg-data);
-    }
-    else {
-        die "FATAL: but why am I here??";
-    }
-
-} # sub csv2class-with-args is export {
