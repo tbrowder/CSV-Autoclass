@@ -1,5 +1,6 @@
 #!/usr/bin/env raku
 
+use lib "../lib";
 use CSV-Autoclass;
 
 my $prog = $*PROGRAM.basename;
@@ -58,8 +59,20 @@ if not $csv-file.defined {
     $class-name = "Person";
 }
 
+=begin comment
+use lib ".";
+my $class = "Tclass";
+
+require ::($class);
+
+my $o = ::($class).new(:name("tom"));
+say $o.name;
+=end comment
+
+use lib '.';
+
 if (try require ::($class-name)) === Nil {
-    die "FATAL: Failed to load module '$class-name'!";
+    die "FATAL: Failed to load module '$class-name'";
 }
 
 say "Reading the CSV file and getting one $class-name object per data line...";
@@ -91,11 +104,10 @@ sub get-csv-class-data(
     my $basename = $csv-file.IO.basename;
     my $ext      = $csv-file.IO.extension.lc;
 
-    # lib paths must be constants
     use lib '.';
 
     if (try require ::($class-name)) === Nil {
-        die "FATAL: Failed to load module '$class-name'!";
+        die "FATAL: Failed to load module '$class-name'";
     }
 
     if $debug {
