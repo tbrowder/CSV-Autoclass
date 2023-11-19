@@ -26,7 +26,7 @@ DESCRIPTION
 
     The current **convention** is to expect the base CSV file name to be constructed of a lower-case, plural name, using only ASCII letters 'a..z-' plus the suffx '.csv'. The resulting class name will be a capitalized and plural version of the base file's stem. For example, given a file 'my-modules.csv', the default class produced will be 'My-module' in file 'My-module.rakumod'.
 
-      * guns.csv => Gun.rakumod
+      * my-modules.csv => My-modules.rakumod
 
     Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`.
 
