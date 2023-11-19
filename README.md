@@ -3,19 +3,19 @@
 NAME
 ====
 
-**CSV-AutoClass** - Define a class with a CSV file and provide data for a list of class objects in the same file
+**CSV-Autoclass** - Define a class with a CSV file and provide data for a list of class objects in the same file
 
 SYNOPSIS
 ========
 
 ```raku
-use CSV-AutoClass;
+use CSV-Autoclass;
 ```
 
 DESCRIPTION
 ===========
 
-**CSV-AutoClass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
+**CSV-Autoclass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
 
   * `csv2class` 
 
@@ -29,7 +29,7 @@ DESCRIPTION
 
   * `use-class`
 
-    Uses a CSV file with class data to list all the data. It uses `CSV-AutoClass` routines provided for interrogating any suitable list of `CSV-AutoClass`-defined objects. It can be used as a template for creating programs that manipulate any CSV file with the same header attributes as one of the generated classes.
+    Uses a CSV file with class data to list all the data. It uses `CSV-Autoclass` routines provided for interrogating any suitable list of `CSV-Autoclass`-defined objects. It can be used as a template for creating programs that manipulate any CSV file with the same header attributes as one of the generated classes.
 
     Its `help` option has more details about its usage.
 

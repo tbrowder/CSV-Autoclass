@@ -1,6 +1,7 @@
-Revision history for CSV-AutoClass
+Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Renamed CSV-Autoclass (old name CSV-AutoClass)
     - Define API 2: 
         + Ability for the user to choose the class name
         + Handle empty last field in header line

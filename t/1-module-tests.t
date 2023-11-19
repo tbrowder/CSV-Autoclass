@@ -35,11 +35,11 @@ is-deeply @sorted-keys, @idx;
 =finish
 
 # this is the header row
-            my @idx = %data.keys.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
-            for 0..^@idx.elems {
-                my $val = %data{$_}.trim;
-                @hdrs.push: $val;
-            }
+my @idx = %data.keys.sort({$^a <=> $^b}); # keys are all numbers, so they should sort numerically
+for 0..^@idx.elems {
+    my $val = %data{$_}.trim;
+    @hdrs.push: $val;
+}
 
 =finish
 
