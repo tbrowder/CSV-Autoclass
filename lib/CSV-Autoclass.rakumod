@@ -2,7 +2,85 @@ unit class CSV-Autoclass;
 
 use CSV-Autoclass::Internals;
 
-sub run-no-args is export {
+sub use-class-no-args is export {
+    my $prog = $*PROGRAM.basename;
+
+    print qq:to/HERE/;
+    Usage:
+      $prog class=<class name> <class CSV data file> [...opts]
+          OR
+      $prog go [...opts]
+
+      Use the 'help' option for detailed instructions.
+
+    Options:
+      dir=<directory to start search from> (default is '.')
+      help
+      debug
+    HERE
+} # sub use-class-no-args is export {
+
+sub use-class-with-args(@*ARGS) is export {
+    my $prog = $*PROGRAM.basename;
+
+    my $debug = 0;
+    my $go    = 0;
+    my $dir   = '.';
+    my $csv-file;
+    my $class-name; # abc.csv => Abc [<-- Abc is the cname (class name)]
+
+    for @*ARGS {
+        when /:i ^ '-'? h/ {
+            use-class-help $prog, :$eg-class, :$eg-data;
+            exit;
+        }
+        if $_.IO.r {
+            $csv-file = $_;
+            next;
+        }
+        when /:i class '=' (\S+) / {
+            $class-name = ~$0;
+        }
+        when /:i data '=' (\S+) / {
+            $csv-file = ~$0;
+        }
+        when /:i dir '=' (\S+) / {
+            $dir = ~$0;
+            unless $dir.IO.d {
+                die "FATAL: Directory '$dir' does not exist";
+            }
+        }
+        when /:i ^g/ { $go    = 1 }
+        when /:i ^d/ { $debug = 1 }
+        default { die "FATAL: Unknown arg '$_'" }
+    }
+
+    if not $csv-file.defined {
+        $csv-file   = $eg-data;
+        $class-name = "Person";
+    }
+
+    if (try require ::($class-name)) === Nil {
+        die "FATAL: Failed to load module '$class-name'!";
+    }
+
+    say "Reading the CSV file and getting one $class-name object per data line...";
+    my @objs = get-csv-class-data :$class-name, :$csv-file, :$debug;
+    #say "temp exit with {@objs.elems} objects"; exit;
+
+    say "Showing each object:";
+    for @objs.kv -> $i, $o {
+        say "Record $i:";
+        for $o.^attributes -> $a {
+            my $v = $a.get_value($o);
+            my $nam = $a.name.comb[2..*].join("");
+            say "  field: {$nam}, value: '$v'";
+        };
+    }
+
+} # sub use-class-with-args is export {
+
+sub csv2class-no-args is export {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} <csv file> class=<class-name> | go [...opts]
 
@@ -18,11 +96,9 @@ sub run-no-args is export {
     Options
         debug
     HERE
+} # sub csv2class-no-args is export {
 
-    exit;
-} # sub run-no-args is export {
-
-sub run-with-args(@*ARGS) is export {
+sub csv2class-with-args(@*ARGS) is export {
 
     my $debug  = 0;
     my $go     = 0;
@@ -55,4 +131,4 @@ sub run-with-args(@*ARGS) is export {
         die "FATAL: but why am I here??";
     }
 
-} # sub run-with-args is export {
+} # sub csv2class-with-args is export {

@@ -10,6 +10,7 @@ SYNOPSIS
 
 ```raku
 use CSV-Autoclass;
+csv2class # OUTPUT: «<usage information>␤»
 ```
 
 DESCRIPTION
@@ -17,9 +18,9 @@ DESCRIPTION
 
 **CSV-Autoclass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
 
-  * `csv2class` 
+  * `csv2class`
 
-    Converts a suitably-formatted CSV file into a class-generator module. 
+    Converts a suitably-formatted CSV file into a class-generator module.
 
     For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
 
@@ -38,7 +39,7 @@ Notes
 
 The header line in the CSV data file is currently designed to use alphanumeric characters which works fine with files designed by the user. However, files produced by outside entities, such as banks, stock markets, and government agencies, may use other symbols (such as '#') that cannot be used in Raku for class attribute names. In such cases, the names will be transformed into approximations which may include the zero-index number of the field's position in the header line.
 
-One known example is the header line in the transactions files of the Hancock-Whitney Bank. That transaction file header is shown below. 
+One known example is the header line in the transactions files of the Hancock-Whitney Bank. That transaction file header is shown below.
 
     Date,Check#,Transaction Type,Description,Debits (-),Credits(+)
 

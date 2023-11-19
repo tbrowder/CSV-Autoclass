@@ -129,3 +129,89 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
     @hdrs
     =end comment
 } #sub get-csv-hdrs($fnam, :$debug --> List) is export {
+
+sub get-csv-class-data(
+    :$class-name = 'Person';
+    :$csv-file   = 'persons.csv',
+    :$dir = '.',
+    :$debug,
+    --> List
+) is export {
+
+    use CSV::Parser;
+    use File::Find;
+
+    my $basename = $csv-file.IO.basename;
+    my $ext      = $csv-file.IO.extension.lc;
+
+    if (try require ::($class-name)) === Nil {
+        die "FATAL: Failed to load module '$class-name'!";
+    }
+
+    if $debug {
+        note qq:to/HERE/;
+        DEBUG from 'get-csv-class-data':
+        \$csv-file  = '$csv-file'
+          \$dir       = '$dir'
+          \$basename  = '$basename'
+          \$extension = '$ext'
+         HERE
+         #note "Exiting..."; exit;
+    }
+
+    unless $ext eq 'csv' {
+        die "FATAL: Desired CSV data file '$csv-file' has no 'csv' extension";
+    }
+
+    my @csv = find :$dir, :type('file'), :name($basename);
+    unless @csv.elems {
+        die "FATAL: No file '$basename' found in dir '$dir'";
+    }
+    if $debug {
+        note "DEBUG \@csv = '{@csv.raku}'";
+    }
+
+    my $fh = open $basename, :r;
+    my $parser = CSV::Parser.new: :file_handle($fh);
+
+    my @objs; # list of data class objects
+    my @hdrs; # this is the first row of headers in order of appearance:
+    ROW: while my %data = %($parser.get_line()) {
+        if not @hdrs.elems {
+            # this is the header row
+            my @idx = %data.keys.sort;
+            for 0..^@idx.elems {
+                my $val = %data{$_}.trim;
+                @hdrs.push: $val;
+            }
+            next ROW
+        }
+
+        # this is a data header row
+        my @idx = %data.keys.sort;
+        my @data;
+        for 0..^@idx.elems {
+            my $val = %data{$_}.trim;
+            @data.push: $val;
+        }
+        if $debug {
+            note "DEBUG: data {@data.raku}";
+        }
+        my $obj = ::($class-name).new(|@data);
+        if $debug {
+            note "DEBUG: object {$obj.last}";
+            note $obj.last;
+        }
+        @objs.push: $obj;
+    }
+    $fh.close;
+
+    if $debug {
+        say "Headers:";
+        my $h = @hdrs.join('|');
+        say $h;
+    }
+
+    @objs
+
+} # sub get-csv-class-data(
