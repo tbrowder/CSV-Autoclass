@@ -26,6 +26,27 @@ sub create-class(:$class-name, :$csv-file!, :$debug) is export {
 
 sub write-example-csv is export {
     # use subs from HowToUseModuleResources
+    =begin comment
+    my @rpaths = get-resources-paths :$debug;
+    say "Resource paths:";
+    say "  $_" for @rpaths;
+
+    say "Contents:";
+    for @rpaths -> $f {
+        my $s = get-content $f, :$nlines;
+        unless $s {
+            say "==File '$f' is not accessible.";
+        next;
+        }
+
+        say "==File '$f':";
+        for $s.lines.kv -> $i is copy, $v {
+            my $n = sprintf "%2d", ++$i;
+            say "    line $n: $v";
+        }
+        say();
+    }
+    =end comment
     die "DEBUG: Tom, fix this";
     my @lines = %?RESOURCES{$eg-data}.lines;
     my $fh = open $eg-data, :w;
