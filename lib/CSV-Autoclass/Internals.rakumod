@@ -17,7 +17,24 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 } # sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 =end comment
 
-sub create-class(:$class-name, :$csv-file!, :$debug) is export {
+sub create-class(:$class-name is copy, :$csv-file!, :$debug) is export {
+
+    my ($dirname, $basename);
+    if not $class-name ~~ /\S+/ {
+        # auto-create, but $csv-file must meet some requirements
+        $dirname  = $csv-file ~~ /'/'/ ?? $csv-file.IO.dirname !! False;
+        $basename = $csv-file.IO.basename; 
+        if $basename ~~ /^ ( <[a..z]> <[-a..z]>+ <[a..z]> [\d*]? s) :i '.csv' $/ {
+            # ok
+            $class-name = ~$0.lc.tc;
+            $class-name ~~ s/s$//;
+        }
+        else {
+            die qq:to/HERE/;
+            FATAL: default CSV file basename ($basename) not in proper format--see README"
+            HERE
+        }
+    }
     my @attrs = get-csv-hdrs $csv-file, :$debug;
 
     my $ofil = write-class-def $class-name, @attrs;
@@ -57,7 +74,7 @@ sub write-example-csv is export {
     say "See output example CSV data file '$eg-data'";
 } #sub write-example-csv is export {
 
-sub write-class-def($cname, @attrs, :$debug --> Str) is export {
+sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
     my $fnam = $cname ~ ".rakumod";
     my $fh = open $fnam, :w;
     $fh.say: "unit class $cname;";
@@ -177,11 +194,11 @@ sub get-csv-class-data(
         note qq:to/HERE/;
         DEBUG from 'get-csv-class-data':
         \$csv-file  = '$csv-file'
-          \$dir       = '$dir'
-          \$basename  = '$basename'
-          \$extension = '$ext'
-         HERE
-         #note "Exiting..."; exit;
+        \$dir       = '$dir'
+        \$basename  = '$basename'
+        \$extension = '$ext'
+        HERE
+        #note "Exiting..."; exit;
     }
 
     unless $ext eq 'csv' {

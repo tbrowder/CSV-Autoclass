@@ -32,8 +32,9 @@ lives-ok {
 
 lives-ok {
     my @args = "csv=$csv-fil";
-    csv2class-with-args(@args)
+    csv2class-with-args(@args);
 }
+is "Person.rakumod".IO.r;
 
 done-testing;
 
