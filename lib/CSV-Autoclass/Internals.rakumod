@@ -115,6 +115,9 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
     $fnam
 } # sub write-class-def($cname, @attrs, :$debug --> Str) is export {
 
+sub strip-csv($csv, :$debug) is export {
+}
+
 sub get-csv-hdrs($fnam, :$debug --> List) is export {
     use CSV::Parser;
     use Text::Utils :strip-comment;
