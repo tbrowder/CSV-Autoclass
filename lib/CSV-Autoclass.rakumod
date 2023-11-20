@@ -6,6 +6,8 @@ sub csv2class-no-args is export {
     my $prog = $*PROGRAM.basename;
     print qq:to/HERE/;
     Usage:
+      $prog <csv file> [...opts]
+          OR
       $prog csv=<csv file> [...opts]
           OR
       $prog eg
@@ -29,20 +31,24 @@ sub csv2class-with-args(@*ARGS) is export {
 
     my $debug  = 0;
     my $eg     = 0;
-    my $csv-file;
-    my $class-name; # The user's chosen class name
+    my $csv-file;   # required on input
+    my $class-name; # optional: The user's chosen class name
 
     for @*ARGS {
-        =begin comment
         if $_.IO.r {
+            if $csv-file.defined {
+                die "FATAL: Only one csv file can be defined";
+            }
             $csv-file = $_;
             next;
         }
         when /'class=' (\S+) / {
             $class-name = ~$0;
         }
-        =end comment
         when /'csv=' (\S+) / {
+            if $csv-file.defined {
+                die "FATAL: Only one csv file can be defined";
+            }
             $csv-file = ~$0;
             unless $csv-file.IO.r {
                 die "FATAL: input csv file '$csv-file' is NOT a file.";
@@ -56,15 +62,14 @@ sub csv2class-with-args(@*ARGS) is export {
     if $csv-file.defined {
         #die "FATAL: No class name entered" if not $class-name.defined;
         # create the class
-        #create-class :$class-name, :$csv-file, :$debug;
-        create-class :csv($csv-file), :$debug;
+        create-class :$class-name, :$csv-file, :$debug;
     }
     elsif $eg {
         write-example-csv;
         create-class :class-name($eg-class), :csv-file($eg-data);
     }
     else {
-        die "FATAL: but why am I here??";
+        die "FATAL: No input csv file defined"; 
     }
 
 } # sub csv2class-with-args is export {

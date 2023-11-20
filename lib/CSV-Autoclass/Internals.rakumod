@@ -17,7 +17,7 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 } # sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 =end comment
 
-sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
+sub create-class(:$class-name, :$csv-file!, :$debug) is export {
     my @attrs = get-csv-hdrs $csv-file, :$debug;
 
     my $ofil = write-class-def $class-name, @attrs;
@@ -25,6 +25,8 @@ sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
 } # sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
 
 sub write-example-csv is export {
+    # use subs from HowToUseModuleResources
+    die "DEBUG: Tom, fix this";
     my @lines = %?RESOURCES{$eg-data}.lines;
     my $fh = open $eg-data, :w;
     for @lines {

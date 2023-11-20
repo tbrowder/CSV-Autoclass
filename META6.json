@@ -20,6 +20,7 @@
     "CSV-Autoclass::Internals": "lib/CSV-Autoclass/Internals.rakumod"
   },
   "resources": [
+    "persons.csv"
   ],
   "source-url": "https://github.com/tbrowder/CSV-Autoclass.git",
   "tags": [
