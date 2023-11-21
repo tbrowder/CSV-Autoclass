@@ -1,5 +1,7 @@
 unit module CSV-Autoclass::Internals is export(:ALL);
 
+use File::Temp;
+
 constant $eg-data  is export = "persons.csv";
 constant $eg-class is export = "Person";
 

@@ -25,6 +25,7 @@ sub csv2class-no-args is export {
       class=X - where X is the desired class name
       dir=X   - where X is the directory to operate in (default: '.')
     HERE
+    exit
 } # sub csv2class-no-args is export {
 
 sub csv2class-with-args(@*ARGS) is export {
@@ -91,6 +92,7 @@ sub use-class-no-args is export {
       csv=X - where X is the desired CSV data file basename
       dir=X - where X is the directory to begin search (default: '.')
     HERE
+    exit
 } # sub use-class-no-args is export {
 
 sub use-class-with-args(@*ARGS) is export {
