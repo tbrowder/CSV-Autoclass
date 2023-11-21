@@ -1,7 +1,6 @@
 use Test;
 
 use File::Temp;
-#use CSV-Autoclass;
 
 my $debug = 0;
 

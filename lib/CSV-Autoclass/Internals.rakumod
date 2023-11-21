@@ -20,7 +20,7 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 sub create-class(:$class-name is copy, :$csv-file!, :$debug) is export {
 
     my ($dirname, $basename);
-    if not $class-name ~~ /\S+/ {
+    if not $class-name.defined or $class-name !~~ /\S+/ {
         # auto-create, but $csv-file must meet some requirements
         $dirname  = $csv-file ~~ /'/'/ ?? $csv-file.IO.dirname !! False;
         $basename = $csv-file.IO.basename; 
@@ -39,7 +39,7 @@ sub create-class(:$class-name is copy, :$csv-file!, :$debug) is export {
 
     my $ofil = write-class-def $class-name, @attrs;
     say "See output CSV class module file '$ofil'";
-} # sub create-class(:$class-name!, :$csv-file!, :$debug) is export {
+} # sub create-class(:$class-name, :$csv-file!, :$debug) is export {
 
 sub write-example-csv is export {
     # use subs from HowToUseModuleResources
@@ -72,7 +72,7 @@ sub write-example-csv is export {
     }
     $fh.close;
     say "See output example CSV data file '$eg-data'";
-} #sub write-example-csv is export {
+} # sub write-example-csv is export {
 
 sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
     my $fnam = $cname ~ ".rakumod";
@@ -115,10 +115,14 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
     $fnam
 } # sub write-class-def($cname, @attrs, :$debug --> Str) is export {
 
-sub strip-csv($csv, :$debug) is export {
-    # copy to special name: $csv.stripped
+sub strip-csv($csv, :$debug --> Str) is export {
+    # copy to special name: "/tmp/$csv.stripped"
     # strip it, and return its slurped contents
     # TODO: check CSV::Parser's options for input types
+    #  done, none, issue was filed to provide parser with lines OR file handle
+    my $tdir = tempdir;
+    copy $csv, "$tdir/$csv.stripped";
+    
 }
 
 sub get-csv-hdrs($fnam, :$debug --> List) is export {
