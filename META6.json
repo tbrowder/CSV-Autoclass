@@ -17,6 +17,7 @@
   "perl": "6.d",
   "provides": {
     "CSV-Autoclass": "lib/CSV-Autoclass.rakumod",
+    "CSV-Autoclass::HowToUseModuleResources": "lib/CSV-Autoclass/HowToUseModuleResources.rakumod",
     "CSV-Autoclass::Internals": "lib/CSV-Autoclass/Internals.rakumod",
     "CSV-Autoclass::Resources": "lib/CSV-Autoclass/Resources.rakumod"
   },

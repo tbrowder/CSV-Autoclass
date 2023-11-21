@@ -1,8 +1,28 @@
 unit module CSV-Autoclass::Resources;
 
-sub get-resources-paths() is export {
+sub get-resources-paths(:$hash = False) is export {
     my @list =
         $?DISTRIBUTION.meta<resources>.map({"resources/$_"});
+    if $hash {
+        #| Assumes unique basenames, but throws if not 
+        my %h;
+        my $dir;
+        my $base;
+        for @list -> $path {
+            if $path ~~ /(\S+) '/' (<-[/]>+) $/ {
+                $dir      = ~$0;
+                $base     = ~$1;
+                die "FATAL: Duplicate file basename '$base' in 'resources'"
+                    if %h{base}:exists;
+                %h{$base} = $dir;
+            }
+            else {
+                %h{$path} = "";
+            }
+        }
+        return %h;
+    }
+
     @list
 }
 
