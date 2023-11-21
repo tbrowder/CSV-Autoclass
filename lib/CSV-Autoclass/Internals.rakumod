@@ -1,6 +1,7 @@
 unit module CSV-Autoclass::Internals is export(:ALL);
 
 use File::Temp;
+use CSV-Autoclass::Resources;
 
 constant $eg-data  is export = "persons.csv";
 constant $eg-class is export = "Person";
@@ -66,6 +67,8 @@ sub write-example-csv is export {
         say();
     }
     =end comment
+    my $s = get-content $eg-data;
+    note "DEBUG: content of eg-data";
     die "DEBUG: Tom, fix this";
     my @lines = %?RESOURCES{$eg-data}.lines;
     my $fh = open $eg-data, :w;
