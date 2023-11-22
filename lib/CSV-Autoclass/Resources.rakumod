@@ -13,7 +13,7 @@ sub get-resources-paths(:$hash = False) is export {
                 $dir      = ~$0;
                 $base     = ~$1;
                 die "FATAL: Duplicate file basename '$base' in 'resources'"
-                    if %h{base}:exists;
+                    if %h{$base}:exists;
                 %h{$base} = $dir;
             }
             else {
