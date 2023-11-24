@@ -1,5 +1,9 @@
 unit module CSV-Autoclass::Resources;
 
+#| This file will be in the next release of the author's
+#| module 'HowToUseModuleResources' as its updated file
+#| 'lib/HowToUseModuleResources.rakumod'.
+#| 
 sub get-resources-paths(:$hash = False) is export {
     my @list =
         $?DISTRIBUTION.meta<resources>.map({"resources/$_"});
@@ -35,9 +39,9 @@ sub get-content($path) is export {
 sub resource-exists($path? --> Bool) is export {
     return False if not $path.defined;
 
-    # "eats" both warnings and errors; fix coming to Zef
-    # as of 2023-10-29
-    # current working code courtesy of @ugexe
+    #| "eats" both warnings and errors; fix coming to Zef
+    #| as of 2023-10-29
+    #| Current working code courtesy of @ugexe
     try {
         so quietly $?DISTRIBUTION.content($path).open(:r).close; # may die
     } // False;

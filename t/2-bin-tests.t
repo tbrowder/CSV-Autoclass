@@ -21,26 +21,34 @@ index, name,
 1, Paul
 HERE
 
-my $csv-fil = "$tempdir/persons.csv";
-spurt $csv-fil, $csv-str;
-my $csv-fil2 = "$tempdir/groups.csv";
-spurt $csv-fil2, $csv-str2;
+my $csv = "$tempdir/persons.csv";
+spurt $csv, $csv-str;
+my $csv2 = "$tempdir/groups.csv";
+spurt $csv2, $csv-str2;
 
+=begin comment
 lives-ok {
     csv2class-no-args
 }, "";
+=end comment
 
 lives-ok {
-    my @args = "csv=$csv-fil";
-    csv2class-with-args(@args);
+    my @args;
+    my $arg = "csv=";
+    $arg ~= $csv;
+    @args.push: $arg; #"csv=$csv";
+    @args.push: "debug";
+    note "DEBUG: ", @args.raku;
+
+    csv2class-with-args @args
 }
-is "Person.rakumod".IO.r;
+is "Person.rakumod".IO.r, True;
 
 done-testing;
 
 =finish
 lives-ok {
-    csv2class csv=$csv-fil2
+    csv2class csv=$csv2
 }, "test comments and blank lines";
 
 lives-ok {
@@ -52,11 +60,11 @@ index, name,
 1, CSV-Autoclass
 HERE
 
-$csv-fil = "$tempdir/my-modules.csv";
+$csv = "$tempdir/my-modules.csv";
 my $class = "My-modules";
-spurt $csv-fil, $csv-str;
+spurt $csv, $csv-str;
 lives-ok {
-    csv2class csv=$csv-fil
+    csv2class csv=$csv
 }
 
 done-testing;

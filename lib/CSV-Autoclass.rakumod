@@ -28,14 +28,17 @@ sub csv2class-no-args is export {
     exit
 } # sub csv2class-no-args is export {
 
-sub csv2class-with-args(@*ARGS) is export {
+#sub csv2class-with-args(@*ARGS) is export {
+sub csv2class-with-args(@args) is export {
 
     my $debug  = 0;
     my $eg     = 0;
     my $csv-file;   # required on input
     my $class-name; # optional: The user's chosen class name
 
-    for @*ARGS {
+    #for @*ARGS {
+    for @args {
+        =begin comment
         if $_.IO.r {
             if $csv-file.defined {
                 die "FATAL: Only one csv file can be defined";
@@ -43,6 +46,7 @@ sub csv2class-with-args(@*ARGS) is export {
             $csv-file = $_;
             next;
         }
+        =end comment
         when /'class=' (\S+) / {
             $class-name = ~$0;
         }
