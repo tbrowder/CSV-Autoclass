@@ -22,7 +22,7 @@
     "CSV-Autoclass::Resources": "lib/CSV-Autoclass/Resources.rakumod"
   },
   "resources": [
-    "persons.csv"
+    "eg-persons.csv"
   ],
   "source-url": "https://github.com/tbrowder/CSV-Autoclass.git",
   "tags": [

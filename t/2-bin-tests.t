@@ -7,7 +7,8 @@ use CSV-Autoclass::Internals;
 
 my @hdrs;
 my @data;
-my $tempdir = tempdir;
+#my $tempdir = tempdir;
+my $tempdir = "/tmp";
 
 my $csv-str = q:to/HERE/;
 index, name,
@@ -32,6 +33,7 @@ lives-ok {
 }, "";
 =end comment
 
+
 lives-ok {
     my @args;
     my $arg = "csv=";
@@ -40,12 +42,15 @@ lives-ok {
     @args.push: "debug";
     note "DEBUG: ", @args.raku;
 
+    #csv2class-with-args(@args);
     csv2class-with-args @args
-}
+}, "lives-ok";
+
 is "Person.rakumod".IO.r, True;
 
 done-testing;
 
+=finish
 =finish
 lives-ok {
     csv2class csv=$csv2

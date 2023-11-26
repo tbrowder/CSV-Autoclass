@@ -24,6 +24,7 @@ sub csv2class-no-args is export {
     Options:
       class=X - where X is the desired class name
       dir=X   - where X is the directory to operate in (default: '.')
+      force   - force overwriting existing files
     HERE
     exit
 } # sub csv2class-no-args is export {
@@ -32,13 +33,13 @@ sub csv2class-no-args is export {
 sub csv2class-with-args(@args) is export {
 
     my $debug  = 0;
+    my $force  = 0;
     my $eg     = 0;
     my $csv-file;   # required on input
     my $class-name; # optional: The user's chosen class name
 
     #for @*ARGS {
     for @args {
-        =begin comment
         if $_.IO.r {
             if $csv-file.defined {
                 die "FATAL: Only one csv file can be defined";
@@ -46,7 +47,6 @@ sub csv2class-with-args(@args) is export {
             $csv-file = $_;
             next;
         }
-        =end comment
         when /'class=' (\S+) / {
             $class-name = ~$0;
         }
@@ -61,6 +61,7 @@ sub csv2class-with-args(@args) is export {
         }
         when /:i ^eg/ { $eg    = 1 }
         when /:i ^d/  { $debug = 1 }
+        when /:i ^f/  { $force = 1 }
         default { die "FATAL: Unknown arg '$_'" }
     }
 
@@ -70,8 +71,8 @@ sub csv2class-with-args(@args) is export {
         create-class :$class-name, :$csv-file, :$debug;
     }
     elsif $eg {
-        write-example-csv;
-        create-class :class-name($eg-class), :csv-file($eg-data);
+        # write-example-csv :$debug;
+        create-class :csv-file($eg-data), :$debug;
     }
     else {
         die "FATAL: No input csv file defined"; 
@@ -95,6 +96,7 @@ sub use-class-no-args is export {
     Options:
       csv=X - where X is the desired CSV data file basename
       dir=X - where X is the directory to begin search (default: '.')
+      force - force overwriting existing files
     HERE
     exit
 } # sub use-class-no-args is export {
@@ -103,6 +105,7 @@ sub use-class-with-args(@*ARGS) is export {
     my $prog = $*PROGRAM.basename;
 
     my $debug = 0;
+    my $force = 0;
     my $go    = 0;
     my $dir   = '.';
     my $csv-file;
@@ -133,6 +136,7 @@ sub use-class-with-args(@*ARGS) is export {
         }
         when /:i ^g/ { $go    = 1 }
         when /:i ^d/ { $debug = 1 }
+        when /:i ^f/ { $force = 1 }
         default { die "FATAL: Unknown arg '$_'" }
     }
 
@@ -146,8 +150,12 @@ sub use-class-with-args(@*ARGS) is export {
     }
 
     say "Reading the CSV file and getting one $class-name object per data line...";
+
     my @objs = get-csv-class-data :$class-name, :$csv-file, :$debug;
-    #say "temp exit with {@objs.elems} objects"; exit;
+
+    if $debug {
+        say "temp exit with {@objs.elems} objects"; exit;
+    }
 
     say "Showing each object:";
     for @objs.kv -> $i, $o {

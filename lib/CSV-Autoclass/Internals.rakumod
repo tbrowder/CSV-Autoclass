@@ -3,8 +3,8 @@ unit module CSV-Autoclass::Internals is export(:ALL);
 use File::Temp;
 use CSV-Autoclass::Resources;
 
-constant $eg-data  is export = "persons.csv";
-constant $eg-class is export = "Person";
+constant $eg-data  is export = "eg-persons.csv";
+constant $eg-class is export = "Eg-person";
 
 =begin comment
 sub use-class-help($prog, :$eg-class, :$eg-data) is export {
@@ -40,13 +40,14 @@ sub create-class(:$class-name is copy, :$csv-file!, :$debug) is export {
     }
     my @attrs = get-csv-hdrs $csv-file, :$debug;
 
-    my $ofil = write-class-def $class-name, @attrs;
+    my $ofil = write-class-def $class-name, @attrs, :$debug;
     say "See output CSV class module file '$ofil'";
 
 } # sub create-class(:$class-name, :$csv-file!, :$debug) is export {
 
-sub write-example-csv is export {
+sub write-example-csv(:$debug) is export {
     # use subs from HowToUseModuleResources
+
     =begin comment
     my @rpaths = get-resources-paths :$debug;
     say "Resource paths:";
@@ -68,18 +69,28 @@ sub write-example-csv is export {
         say();
     }
     =end comment
-    my $s = get-content $eg-data;
-    note "DEBUG: content of eg-data";
-    die "DEBUG: Tom, fix this";
-    my @lines = %?RESOURCES{$eg-data}.lines;
-    my $fh = open $eg-data, :w;
-    for @lines {
-        $fh.say: $_
-    }
-    $fh.close;
-    say "See output example CSV data file '$eg-data'";
 
-} # sub write-example-csv is export {
+    my %h    = get-resources-paths :hash;
+    my $pdir = %h{$eg-data};
+    my $str  = get-content "$pdir/$eg-data";
+
+    note "DEBUG: ", %h.raku;
+    note "DEBUG: ", $eg-data;
+    note "DEBUG: ", $pdir.raku;
+    note "DEBUG: content of eg-data";
+    note $str;
+
+    #die "DEBUG: Tom, fix this";
+
+    my @lines = $str.lines; # %?RESOURCES{$eg-data}.lines;
+    say "Contents:";
+    say "  $_" for @lines;
+
+    return;
+    say "See output example CSV data file '$eg-data'";
+    say "DEBUG early exit"; exit;
+
+} # sub write-example-csv(:$debug) is export {
 
 sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
     my $fnam = $cname ~ ".rakumod";
@@ -107,7 +118,7 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
     # need a new method for the positional args
     my $argstr = @attrs.join(', ');
     $argstr = '$' ~ $argstr;
-    say "DEBUG: argstr: '$argstr'" if $debug;
+    note "DEBUG: argstr: '$argstr'" if $debug;
 
     my $argstr2 = @attrs.join(', :$');
     $argstr2 = ':$' ~ $argstr2;
