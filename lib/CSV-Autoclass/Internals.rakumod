@@ -20,7 +20,7 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 } # sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 =end comment
 
-sub create-class(:$class-name is copy, :$csv-file!, :$debug) is export {
+sub create-class(:$class-name is copy, :$csv-file!, :$out-dir, :$debug) is export {
 
     my ($dirname, $basename);
     if not $class-name.defined or $class-name !~~ /\S+/ {
@@ -40,10 +40,10 @@ sub create-class(:$class-name is copy, :$csv-file!, :$debug) is export {
     }
     my @attrs = get-csv-hdrs $csv-file, :$debug;
 
-    my $ofil = write-class-def $class-name, @attrs, :$debug;
+    my $ofil = write-class-def $class-name, @attrs, :$out-dir, :$debug;
     say "See output CSV class module file '$ofil'";
 
-} # sub create-class(:$class-name, :$csv-file!, :$debug) is export {
+} # sub create-class(:$class-name, :$csv-file!, :$out-dir, :$debug) is export {
 
 sub write-example-csv(:$debug) is export {
     # use subs from HowToUseModuleResources
@@ -74,11 +74,13 @@ sub write-example-csv(:$debug) is export {
     my $pdir = %h{$eg-data};
     my $str  = get-content "$pdir/$eg-data";
 
-    note "DEBUG: ", %h.raku;
-    note "DEBUG: ", $eg-data;
-    note "DEBUG: ", $pdir.raku;
-    note "DEBUG: content of eg-data";
-    note $str;
+    if $debug {
+        note "DEBUG: ", %h.raku;
+        note "DEBUG: ", $eg-data;
+        note "DEBUG: ", $pdir.raku;
+        note "DEBUG: content of eg-data";
+        note $str;
+    }
 
     #die "DEBUG: Tom, fix this";
 
@@ -92,8 +94,15 @@ sub write-example-csv(:$debug) is export {
 
 } # sub write-example-csv(:$debug) is export {
 
-sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
+sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$debug --> Str) is export {
+    note "DEBUG: in sub write-class-def" if $debug;
+    note "  \@attrs: {@attrs.raku}" if $debug;
+
     my $fnam = $cname ~ ".rakumod";
+    if $out-dir.defined and $out-dir.IO.d {
+        $fnam = $out-dir ~ "/" ~ $fnam;
+    }
+
     my $fh = open $fnam, :w;
     $fh.say: "unit class $cname;";
     $fh.say: "# WARNING - AUTO-GENERATED - EDITS WILL BE LOST";
@@ -111,12 +120,13 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$debug --> Str) is export {
     $fh.say();
     for @attrs -> $a {
         next if $a !~~ /\S/;
-        $fh.say: "has \$.$a;";
+        note "DEBUG: listing \@attr '$a'" if $debug;
+        $fh.say: "has \$.{$a};";
     }
     $fh.say();
 
     # need a new method for the positional args
-    my $argstr = @attrs.join(', ');
+    my $argstr = @attrs.join(', $');
     $argstr = '$' ~ $argstr;
     note "DEBUG: argstr: '$argstr'" if $debug;
 
@@ -163,8 +173,13 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
         }
     }
 
+    if $debug {
+        note "DEBUG: \@lines:";
+        note "  $_" for @lines;
+    }
+
     # keys are column number, 0..$n-1
-    my $split-char = ".";
+    my $split-char = ",";
     my @hdrs-raw = @lines.head.split($split-char); 
     
     #my @hdrs-nums = @hdrs.sort({ $^a <=> $^b });
@@ -174,7 +189,7 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
         @hdrs.push: $hdr;
     }
 
-    if $debug {
+    if 0 and $debug {
         note "DEBUG: {@hdrs.raku}";
         note "DEBUG: headers:";
         for @hdrs.kv -> $k, $v {
@@ -194,7 +209,7 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
     }
     =end comment
 
-    if $debug {
+    if 0 and $debug {
         say "Headers:";
         my $h = @hdrs.join('|');
         say $h;

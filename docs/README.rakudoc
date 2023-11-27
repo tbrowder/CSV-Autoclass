@@ -14,7 +14,7 @@ use-class # OUTPUT: «<usage information>␤»
 
 =head1 DESCRIPTION
 
-Note: This is API 2. Previoues versions should NOT be used.
+Note: This is API 2. Previous versions should NOT be used.
 
 B<CSV-Autoclass> is a module with two accompanying programs. For
 each program, execute it without any arguments to see instructions.
@@ -23,6 +23,11 @@ each program, execute it without any arguments to see instructions.
 C<csv2class> csv=my-modules.csv
 
 Converts a suitably-formatted CSV file into a class-generator module.
+Currently the only field separation character (SEPCHAR) allowed is an apostrophe
+(C<,>) but other SEPCHARs are possible if anyone is interested.
+Headers and field data are, by default, normalized (trimmed and multiple whitespace
+characters collapsed to one character). That, too, can be modified if there
+is interest.
 
 For instance, given a CSV file named C<persons.csv>, the program, by
 default, will generate module C<Person.rakumod> which can be used by
@@ -39,10 +44,10 @@ given a file 'my-modules.csv', the default class produced will be
 For ease of operation, using the conventional naming method is
 recommended:
 
-=item my-modules.csv => My-modules.rakumod
+=item my-modules.csv => My-module.rakumod
 
 Alternatively, the user can specify another class name by entering
-C<class=MyClassName> as an argument to C<csv2class>.  But, due to the
+C<class=MyClassName> as an argument to C<csv2class>. Due to the
 myriad of input argument possibilities, not many have been tested yet.
 PRs are always welcome.
 
@@ -116,6 +121,9 @@ the user wishes to improve the transformation.
 =item Use a database for storage instead of a CSV file.
 
 =head2 TODO
+
+=item Allow field separators other than the apostophe (awaiting
+improvements in module C<CSV::Parser>).
 
 =item Make field name translations work.
 

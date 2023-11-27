@@ -22,23 +22,22 @@ sub csv2class-no-args is export {
     are created in the current directory.
 
     Options:
-      class=X - where X is the desired class name
-      dir=X   - where X is the directory to operate in (default: '.')
-      force   - force overwriting existing files
+      class=X   - where X is the desired class name
+      dir=X     - where X is the directory to operate in (default: '.')
+      out-dir=X - where X is the desired output directory (default: '.')
+      force     - force overwriting existing files
     HERE
-    exit
 } # sub csv2class-no-args is export {
 
-#sub csv2class-with-args(@*ARGS) is export {
 sub csv2class-with-args(@args) is export {
 
-    my $debug  = 0;
-    my $force  = 0;
-    my $eg     = 0;
-    my $csv-file;   # required on input
+    my $debug   = 0;
+    my $out-dir = '';
+    my $force   = 0;
+    my $eg      = 0;
+    my $csv-file;   # source of CSV data, required on input
     my $class-name; # optional: The user's chosen class name
 
-    #for @*ARGS {
     for @args {
         if $_.IO.r {
             if $csv-file.defined {
@@ -46,6 +45,12 @@ sub csv2class-with-args(@args) is export {
             }
             $csv-file = $_;
             next;
+        }
+        when /'out-dir=' (\S+) / {
+            $out-dir = ~$0;
+            unless $out-dir.IO.d {
+                die "FATAL: '$out-dir' is not a usable directory."
+            }
         }
         when /'class=' (\S+) / {
             $class-name = ~$0;
@@ -68,11 +73,11 @@ sub csv2class-with-args(@args) is export {
     if $csv-file.defined {
         #die "FATAL: No class name entered" if not $class-name.defined;
         # create the class
-        create-class :$class-name, :$csv-file, :$debug;
+        create-class :$class-name, :$csv-file, :$out-dir, :$debug;
     }
     elsif $eg {
         # write-example-csv :$debug;
-        create-class :csv-file($eg-data), :$debug;
+        create-class :csv-file($eg-data), :$out-dir, :$debug;
     }
     else {
         die "FATAL: No input csv file defined"; 

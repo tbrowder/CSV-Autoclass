@@ -17,13 +17,13 @@ use-class # OUTPUT: «<usage information>␤»
 DESCRIPTION
 ===========
 
-Note: This is API 2. Previoues versions should NOT be used.
+Note: This is API 2. Previous versions should NOT be used.
 
 **CSV-Autoclass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
 
   * `csv2class` csv=my-modules.csv
 
-    Converts a suitably-formatted CSV file into a class-generator module.
+    Converts a suitably-formatted CSV file into a class-generator module. Currently the only field separation character (SEPCHAR) allowed is an apostrophe (`,`) but other SEPCHARs are possible if anyone is interested. Headers and field data are, by default, normalized (trimmed and multiple whitespace characters collapsed to one character). That, too, can be modified if there is interest.
 
     For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
 
@@ -31,9 +31,9 @@ Note: This is API 2. Previoues versions should NOT be used.
 
     For ease of operation, using the conventional naming method is recommended:
 
-      * my-modules.csv => My-modules.rakumod
+      * my-modules.csv => My-module.rakumod
 
-    Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`. But, due to the myriad of input argument possibilities, not many have been tested yet. PRs are always welcome.
+    Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`. Due to the myriad of input argument possibilities, not many have been tested yet. PRs are always welcome.
 
   * `use-class`
 
@@ -71,6 +71,8 @@ Possible improvements
 
 TODO
 ----
+
+  * Allow field separators other than the apostophe (awaiting improvements in module `CSV::Parser`).
 
   * Make field name translations work.
 

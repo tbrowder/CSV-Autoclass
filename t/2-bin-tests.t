@@ -1,25 +1,27 @@
 use Test;
-use lib "t";
-#use Util;
 use File::Temp;
+
 use CSV-Autoclass;
 use CSV-Autoclass::Internals;
 
+use lib "t";
+use Util;
+
+my $debug = 0;
 my @hdrs;
 my @data;
-#my $tempdir = tempdir;
-my $tempdir = "/tmp";
+my $tempdir = $debug ?? "/tmp" !! tempdir;
 
 my $csv-str = q:to/HERE/;
-index, name,
+index, name, age
 1, Paul
 HERE
 
 my $csv-str2 = q:to/HERE/;
 # comment
-index, name,
+index, name, age
 
-1, Paul
+1, Paul, 30
 HERE
 
 my $csv = "$tempdir/persons.csv";
@@ -27,31 +29,24 @@ spurt $csv, $csv-str;
 my $csv2 = "$tempdir/groups.csv";
 spurt $csv2, $csv-str2;
 
-=begin comment
+my @args;
+
 lives-ok {
     csv2class-no-args
 }, "";
-=end comment
 
-
+my $out-dir = $tempdir;
 lives-ok {
-    my @args;
-    my $arg = "csv=";
-    $arg ~= $csv;
-    @args.push: $arg; #"csv=$csv";
-    @args.push: "debug";
-    note "DEBUG: ", @args.raku;
-
-    #csv2class-with-args(@args);
+    @args = "csv=$csv", "debug", "out-dir=$out-dir";
     csv2class-with-args @args
 }, "lives-ok";
 
-is "Person.rakumod".IO.r, True;
+is "$tempdir/Person.rakumod".IO.r, True;
 
 done-testing;
 
 =finish
-=finish
+
 lives-ok {
     csv2class csv=$csv2
 }, "test comments and blank lines";
