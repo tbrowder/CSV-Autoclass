@@ -144,48 +144,40 @@ sub strip-csv($csv, :$debug --> Str) is export {
 } # sub strip-csv($csv, :$debug --> Str) is export {
 
 sub get-csv-hdrs($fnam, :$debug --> List) is export {
-    #use CSV::Parser;
     use Text::Utils :strip-comment, :normalize-text;
 
-    # first elim comments and blank lines
     my @lines;
-    for $fnam.IO.lines -> $line is copy {
-        $line = strip-comment $line;
-        next if $line !~~ /\S/;
-        @lines.push: $line;
+    if $fnam ~~ /eg '-' persons '.' csv $/ {
+        my %h    = get-resources-paths :hash;
+        my $pdir = %h{$eg-data};
+        my $str  = get-content "$pdir/$eg-data";
+        # don't need to check for comments
+        @lines = $str.lines;
+    }
+    else {
+        # elim comments and blank lines
+        for $fnam.IO.lines -> $line is copy {
+            $line = strip-comment $line;
+            next if $line !~~ /\S/;
+            @lines.push: $line;
+        }
     }
 
-    =begin comment
-    # if using CSV::Parser
-    spurt $fnam, @lines.join("\n");
-    my $fh = open $fnam, :r;
-    my $parser = CSV::Parser.new: :file_handle($fh), :contains_header_row;
-    my %data = %($parser.get_line());
-    my $hdrs = $parser.headers;
-    =end comment
-
-    #=== NOT using CSV::Parser 
     # keys are column number, 0..$n-1
     my $split-char = ".";
     my @hdrs-raw = @lines.head.split($split-char); 
     
     #my @hdrs-nums = @hdrs.sort({ $^a <=> $^b });
     my @hdrs;
-    for @hdrs-raw -> $hdr {
+    for @hdrs-raw -> $hdr is copy {
         $hdr = normalize-text $hdr;
-        =begin comment
-        my $s = $hdrs{$n};
-        $s .= trim;
-        @hdrs.push: $s;
-        =end comment
         @hdrs.push: $hdr;
     }
 
-    =begin comment
     if $debug {
-        note "DEBUG: {dd @hdrs}";
+        note "DEBUG: {@hdrs.raku}";
         note "DEBUG: headers:";
-        for $hdrs.kv -> $k, $v {
+        for @hdrs.kv -> $k, $v {
             note "  key: '$k'";
             note "      value: '$v'";
         }
@@ -193,9 +185,6 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
         note "  $_" for @hdrs;
         note "DEBUG: early exit"; exit;
     }
-    =end comment
-
-    #$fh.close;
 
     =begin comment
     # handle a bug in CSV::Parser where an empty last field is not handled
