@@ -46,3 +46,14 @@ sub resource-exists($path? --> Bool) is export {
         so quietly $?DISTRIBUTION.content($path).open(:r).close; # may die
     } // False;
 }
+
+sub auth is export {
+    #| Returns the value of META6.json<auth>
+    $?DISTRIBUTION.meta<auth>
+}
+
+sub version is export {
+    #| Returns the value of META6.json<version>
+    $?DISTRIBUTION.meta<ver>
+}
+

@@ -37,7 +37,7 @@ lives-ok {
 
 my $out-dir = $tempdir;
 lives-ok {
-    @args = "csv=$csv", "debug", "out-dir=$out-dir";
+    @args = "csv=$csv", "out-dir=$out-dir";
     csv2class-with-args @args
 }, "lives-ok";
 

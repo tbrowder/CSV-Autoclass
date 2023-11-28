@@ -1,9 +1,13 @@
 unit module CSV-Autoclass;
 
 use CSV-Autoclass::Internals;
+use CSV-Autoclass::Resources;
 
 sub csv2class-no-args is export {
     my $prog = $*PROGRAM.basename;
+    my $auth = auth;
+    my $ver  = version;
+
     print qq:to/HERE/;
     Usage:
       $prog <csv file> [...opts]
@@ -26,6 +30,9 @@ sub csv2class-no-args is export {
       dir=X     - where X is the directory to operate in (default: '.')
       out-dir=X - where X is the desired output directory (default: '.')
       force     - force overwriting existing files
+
+    Author:  $auth
+    Version: $ver
     HERE
 } # sub csv2class-no-args is export {
 
@@ -67,6 +74,11 @@ sub csv2class-with-args(@args) is export {
         when /:i ^eg/ { $eg    = 1 }
         when /:i ^d/  { $debug = 1 }
         when /:i ^f/  { $force = 1 }
+        when /:i ^v/  { 
+            say "Author : ", auth; 
+            say "Version: ", version; 
+            exit; 
+        }
         default { die "FATAL: Unknown arg '$_'" }
     }
 

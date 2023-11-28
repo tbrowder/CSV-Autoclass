@@ -27,7 +27,8 @@ Currently the only field separation character (SEPCHAR) allowed is an apostrophe
 (C<,>) but other SEPCHARs are possible if anyone is interested.
 Headers and field data are, by default, normalized (trimmed and multiple whitespace
 characters collapsed to one character). That, too, can be modified if there
-is interest.
+is interest. Headers values must not contain spaces (file an issue if that
+is a problem for your use case).
 
 For instance, given a CSV file named C<persons.csv>, the program, by
 default, will generate module C<Person.rakumod> which can be used by
@@ -47,8 +48,8 @@ recommended:
 =item my-modules.csv => My-module.rakumod
 
 Alternatively, the user can specify another class name by entering
-C<class=MyClassName> as an argument to C<csv2class>. Due to the
-myriad of input argument possibilities, not many have been tested yet.
+C<class=MyClassName> as an argument to C<csv2class>. Use of non-ASCII
+characters should work but none have been tested yet.
 PRs are always welcome.
 
 =end item
@@ -128,6 +129,11 @@ improvements in module C<CSV::Parser>).
 =item Make field name translations work.
 
 =item Add extensive tests.
+
+=head1 CREDITS
+
+Many thanks to Elizabeth Mattijsen (@lizmat) for showing me how
+to use Raku magic for creating the class programmatically.
 
 =head1 AUTHOR
 
