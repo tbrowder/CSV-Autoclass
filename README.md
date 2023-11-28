@@ -33,7 +33,7 @@ Note: This is API 2. Previous versions should NOT be used.
 
       * my-modules.csv => My-module.rakumod
 
-    Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`. Use of non-ASCII characters should work but none have been tested yet. PRs are always welcome.
+    Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`. Use of non-ASCII characters should work but none have been tested yet. PRs are always welcome, especially a suitable test in a heavily non-ASCII language.
 
   * `use-class`
 

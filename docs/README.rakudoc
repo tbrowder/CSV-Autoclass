@@ -52,7 +52,7 @@ recommended:
 Alternatively, the user can specify another class name by entering
 C<class=MyClassName> as an argument to C<csv2class>. Use of non-ASCII
 characters should work but none have been tested yet.  PRs are always
-welcome.
+welcome, especially a suitable test in a heavily non-ASCII language.
 
 =end item
 
