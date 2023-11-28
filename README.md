@@ -72,7 +72,7 @@ Possible improvements
 TODO
 ----
 
-  * Allow field separators other than the apostophe (awaiting improvements in module `CSV::Parser`).
+  * Allow field separators other than the apostophe.
 
   * Make field name translations work.
 

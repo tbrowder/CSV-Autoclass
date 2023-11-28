@@ -23,16 +23,18 @@ each program, execute it without any arguments to see instructions.
 C<csv2class> csv=my-modules.csv
 
 Converts a suitably-formatted CSV file into a class-generator module.
-Currently the only field separation character (SEPCHAR) allowed is an apostrophe
-(C<,>) but other SEPCHARs are possible if anyone is interested.
-Headers and field data are, by default, normalized (trimmed and multiple whitespace
-characters collapsed to one character). That, too, can be modified if there
-is interest. Headers values must not contain spaces (file an issue if that
-is a problem for your use case).
+Currently the only field separation character (SEPCHAR) allowed is an
+apostrophe (C<,>) but other SEPCHARs are possible if anyone is
+interested.  Headers and field data are, by default, normalized
+(trimmed and multiple whitespace characters collapsed to one
+character). That, too, can be modified if there is interest. Headers
+values must not contain spaces (file an issue if that is a problem for
+your use case).
 
 For instance, given a CSV file named C<persons.csv>, the program, by
 default, will generate module C<Person.rakumod> which can be used by
-another included program, C<use-class>, to demonstrate using the module.
+another included program, C<use-class>, to demonstrate using the
+module.
 
 The current B<convention> is to expect the base CSV file name to be
 constructed of a lower-case, plural name, using only ASCII letters
@@ -49,20 +51,19 @@ recommended:
 
 Alternatively, the user can specify another class name by entering
 C<class=MyClassName> as an argument to C<csv2class>. Use of non-ASCII
-characters should work but none have been tested yet.
-PRs are always welcome.
+characters should work but none have been tested yet.  PRs are always
+welcome.
 
 =end item
 
 =begin item
 C<use-class>
 
-Uses a CSV file with class data to list all the data.
-It uses C<CSV-Autoclass> routines provided for interrogating any
-suitable list of C<CSV-Autoclass>-defined objects.
-It can be used as a template for creating programs that
-manipulate any CSV file with the same header attributes as
-one of the generated classes.
+Uses a CSV file with class data to list all the data.  It uses
+C<CSV-Autoclass> routines provided for interrogating any suitable list
+of C<CSV-Autoclass>-defined objects.  It can be used as a template for
+creating programs that manipulate any CSV file with the same header
+attributes as one of the generated classes.
 
 Its C<help> option has more details about its usage.
 =end item
@@ -123,8 +124,7 @@ the user wishes to improve the transformation.
 
 =head2 TODO
 
-=item Allow field separators other than the apostophe (awaiting
-improvements in module C<CSV::Parser>).
+=item Allow field separators other than the apostophe.
 
 =item Make field name translations work.
 
