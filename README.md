@@ -23,7 +23,7 @@ Note: This is API 2. Previous versions should NOT be used.
 
   * `csv2class` csv=my-modules.csv
 
-    Converts a suitably-formatted CSV file into a class-generator module. Currently the only field separation character (SEPCHAR) allowed is an apostrophe (`,`) but other SEPCHARs are possible if anyone is interested. Headers and field data are, by default, normalized (trimmed and multiple whitespace characters collapsed to one character). That, too, can be modified if there is interest.
+    Converts a suitably-formatted CSV file into a class-generator module. Currently the only field separation character (SEPCHAR) allowed is an apostrophe (`,`) but other SEPCHARs are possible if anyone is interested. Headers and field data are, by default, normalized (trimmed and multiple whitespace characters collapsed to one character). That, too, can be modified if there is interest. Headers values must not contain spaces (file an issue if that is a problem for your use case).
 
     For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
 
@@ -33,7 +33,7 @@ Note: This is API 2. Previous versions should NOT be used.
 
       * my-modules.csv => My-module.rakumod
 
-    Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`. Due to the myriad of input argument possibilities, not many have been tested yet. PRs are always welcome.
+    Alternatively, the user can specify another class name by entering `class=MyClassName` as an argument to `csv2class`. Use of non-ASCII characters should work but none have been tested yet. PRs are always welcome.
 
   * `use-class`
 
@@ -77,6 +77,11 @@ TODO
   * Make field name translations work.
 
   * Add extensive tests.
+
+CREDITS
+=======
+
+Many thanks to Elizabeth Mattijsen (@lizmat) for showing me how to use Raku magic for creating the class programmatically.
 
 AUTHOR
 ======
