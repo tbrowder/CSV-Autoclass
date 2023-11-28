@@ -21,7 +21,7 @@ Note: This is API 2. Previous versions should NOT be used.
 
 **CSV-Autoclass** is a module with two accompanying programs. For each program, execute it without any arguments to see instructions.
 
-  * `csv2class` csv=my-modules.csv
+  * `csv2class csv=my-modules.csv`
 
     Converts a suitably-formatted CSV file into a class-generator module. Currently the only field separation character (SEPCHAR) allowed is an apostrophe (`,`) but other SEPCHARs are possible if anyone is interested. Headers and field data are, by default, normalized (trimmed and multiple whitespace characters collapsed to one character). That, too, can be modified if there is interest. Headers values must not contain spaces (file an issue if that is a problem for your use case).
 

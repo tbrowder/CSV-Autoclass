@@ -20,7 +20,7 @@ B<CSV-Autoclass> is a module with two accompanying programs. For
 each program, execute it without any arguments to see instructions.
 
 =begin item
-C<csv2class> csv=my-modules.csv
+C<csv2class csv=my-modules.csv>
 
 Converts a suitably-formatted CSV file into a class-generator module.
 Currently the only field separation character (SEPCHAR) allowed is an
