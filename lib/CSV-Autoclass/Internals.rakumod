@@ -20,7 +20,13 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 } # sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 =end comment
 
-sub create-class(:$class-name is copy, :$csv-file!, :$out-dir, :$debug) is export {
+sub create-class(
+    :$csv-file!, 
+    :$class-name is copy, 
+    :$out-dir, 
+    :$sepchar = ',',
+    :$debug
+    ) is export {
 
     my ($dirname, $basename);
     if not $class-name.defined or $class-name !~~ /\S+/ {
@@ -38,7 +44,8 @@ sub create-class(:$class-name is copy, :$csv-file!, :$out-dir, :$debug) is expor
             HERE
         }
     }
-    my @attrs = get-csv-hdrs $csv-file, :$debug;
+
+    my @attrs = get-csv-hdrs $csv-file, :$sepchar, :$debug;
 
     my $ofil = write-class-def $class-name, @attrs, :$out-dir, :$debug;
     say "See output CSV class module file '$ofil'";
@@ -153,7 +160,7 @@ sub strip-csv($csv, :$debug --> Str) is export {
     copy $csv, "$tdir/$csv.stripped";
 } # sub strip-csv($csv, :$debug --> Str) is export {
 
-sub get-csv-hdrs($fnam, :$debug --> List) is export {
+sub get-csv-hdrs($fnam, :$sepchar!, :$debug --> List) is export {
     use Text::Utils :strip-comment, :normalize-text;
 
     my @lines;
@@ -179,8 +186,7 @@ sub get-csv-hdrs($fnam, :$debug --> List) is export {
     }
 
     # keys are column number, 0..$n-1
-    my $split-char = ",";
-    my @hdrs-raw = @lines.head.split($split-char); 
+    my @hdrs-raw = @lines.head.split($sepchar); 
     
     #my @hdrs-nums = @hdrs.sort({ $^a <=> $^b });
     my @hdrs;
@@ -227,7 +233,7 @@ sub get-csv-class-data(
     --> List
 ) is export {
 
-    use CSV::Parser;
+    #use CSV::Parser;
     use File::Find;
 
     my $basename = $csv-file.IO.basename;

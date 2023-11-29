@@ -27,7 +27,7 @@ Currently the only field separation character (SEPCHAR) allowed is an
 apostrophe (C<,>) but other SEPCHARs are possible if anyone is
 interested.  Headers and field data are, by default, normalized
 (trimmed and multiple whitespace characters collapsed to one
-character). That, too, can be modified if there is interest. Headers
+character). That, too, can be modified if there is interest. Header
 values must not contain spaces (file an issue if that is a problem for
 your use case).
 

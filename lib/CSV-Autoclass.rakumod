@@ -30,6 +30,7 @@ sub csv2class-no-args is export {
       dir=X     - where X is the directory to operate in (default: '.')
       out-dir=X - where X is the desired output directory (default: '.')
       force     - force overwriting existing files
+      sepchar=X - where X is the desired SEPCHAR (default: ',')
 
     Author:  $auth
     Version: $ver
@@ -42,6 +43,7 @@ sub csv2class-with-args(@args) is export {
     my $out-dir = '';
     my $force   = 0;
     my $eg      = 0;
+    my $sepchar = ',';
     my $csv-file;   # source of CSV data, required on input
     my $class-name; # optional: The user's chosen class name
 
@@ -61,6 +63,13 @@ sub csv2class-with-args(@args) is export {
         }
         when /'class=' (\S+) / {
             $class-name = ~$0;
+        }
+        when /'sepchar=' (\S+) / {
+            $sepchar = ~$0;
+            #| Legal chars
+            if $sepchar !~~ /^ <[,;|]> $/ {
+                die "FATAL: The only three valid SEPCHARs are: <,;|>, '$_' is not valid,";
+            }
         }
         when /'csv=' (\S+) / {
             if $csv-file.defined {
@@ -85,7 +94,7 @@ sub csv2class-with-args(@args) is export {
     if $csv-file.defined {
         #die "FATAL: No class name entered" if not $class-name.defined;
         # create the class
-        create-class :$class-name, :$csv-file, :$out-dir, :$debug;
+        create-class :$class-name, :$csv-file, :$out-dir, :$sepchar, :$debug;
     }
     elsif $eg {
         # write-example-csv :$debug;

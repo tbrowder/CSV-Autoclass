@@ -23,7 +23,7 @@ Note: This is API 2. Previous versions should NOT be used.
 
   * `csv2class csv=my-modules.csv`
 
-    Converts a suitably-formatted CSV file into a class-generator module. Currently the only field separation character (SEPCHAR) allowed is an apostrophe (`,`) but other SEPCHARs are possible if anyone is interested. Headers and field data are, by default, normalized (trimmed and multiple whitespace characters collapsed to one character). That, too, can be modified if there is interest. Headers values must not contain spaces (file an issue if that is a problem for your use case).
+    Converts a suitably-formatted CSV file into a class-generator module. Currently the only field separation character (SEPCHAR) allowed is an apostrophe (`,`) but other SEPCHARs are possible if anyone is interested. Headers and field data are, by default, normalized (trimmed and multiple whitespace characters collapsed to one character). That, too, can be modified if there is interest. Header values must not contain spaces (file an issue if that is a problem for your use case).
 
     For instance, given a CSV file named `persons.csv`, the program, by default, will generate module `Person.rakumod` which can be used by another included program, `use-class`, to demonstrate using the module.
 
