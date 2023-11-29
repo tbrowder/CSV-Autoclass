@@ -21,9 +21,9 @@ sub use-class-help($prog, :$eg-class, :$eg-data) is export {
 =end comment
 
 sub create-class(
-    :$csv-file!, 
-    :$class-name is copy, 
-    :$out-dir, 
+    :$csv-file!,
+    :$class-name is copy,
+    :$out-dir,
     :$sepchar = ',',
     :$debug
     ) is export {
@@ -32,7 +32,7 @@ sub create-class(
     if not $class-name.defined or $class-name !~~ /\S+/ {
         # auto-create, but $csv-file must meet some requirements
         $dirname  = $csv-file ~~ /'/'/ ?? $csv-file.IO.dirname !! False;
-        $basename = $csv-file.IO.basename; 
+        $basename = $csv-file.IO.basename;
         if $basename ~~ /^ ( <[a..z]> <[-a..z]>+ <[a..z]> [\d*]? s) :i '.csv' $/ {
             # ok
             $class-name = ~$0.lc.tc;
@@ -40,7 +40,7 @@ sub create-class(
         }
         else {
             die qq:to/HERE/;
-            FATAL: default CSV file basename ($basename) not in proper format--see README"
+            FATAL: default CSV file basename ($basename) not in proper format--see README
             HERE
         }
     }
@@ -106,7 +106,7 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$debug --> Str) 
     note "  \@attrs: {@attrs.raku}" if $debug;
 
     my $fnam = $cname ~ ".rakumod";
-    if $out-dir.defined and $out-dir.IO.d {
+    if $out-dir.defined and $out-dir and $out-dir.IO.d {
         $fnam = $out-dir ~ "/" ~ $fnam;
     }
 
@@ -114,14 +114,12 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$debug --> Str) 
     $fh.say: "unit class $cname;";
     $fh.say: "# WARNING - AUTO-GENERATED - EDITS WILL BE LOST";
 
-    =begin comment
     # get length of longest attr
     my $len = 0;
     for @attrs -> $a {
         my $nc = $a.chars;
         $len = $nc if $len < $nc;
     }
-    =end comment
 
     # write attrs neatly
     $fh.say();
@@ -132,18 +130,68 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$debug --> Str) 
     }
     $fh.say();
 
-    # need a new method for the positional args
+    # need a 'new' method for the positional args
     my $argstr = @attrs.join(', $');
     $argstr = '$' ~ $argstr;
     note "DEBUG: argstr: '$argstr'" if $debug;
 
     my $argstr2 = @attrs.join(', :$');
     $argstr2 = ':$' ~ $argstr2;
-    say "DEBUG: argstr2: '$argstr2'" if $debug;
+    note "DEBUG: argstr2: '$argstr2'" if $debug;
 
-    $fh.say: qq:to/HERE/;
+    $fh.print: qq:to/HERE/;
     method new($argstr) \{
         self.bless($argstr2);
+    }
+
+    #! Special multi methods allow setting attribute values
+    #! programmatically via a special single method
+    HERE
+
+
+    #| Add proven methods
+    for @attrs -> $attr {
+        my $len1 = "multi method ".chars + $len + "\(\$v\)".chars;
+        my $len2 = "\{ \$!".chars + $len;
+        my $len3 = "= \$v \}".chars;
+
+        my $meth = sprintf "%-*.*s", $len1, $len1, "multi method $attr\(\$v\)";
+        my $sub1 = sprintf "%-*.*s", $len2, $len2, "\{ \$!{$attr}";
+        my $sub2 = sprintf "%-*.*s", $len3, $len3, "= \$v \}";
+        $fh.say: "$meth $sub1 $sub2";
+    }
+
+    $fh.print: q:to/HERE/;
+
+    method set-value(:$field!, :$value!) {
+        self."$field"($value)
+    }
+
+    method list-fields(--> List) {
+        #| Return a list of the the attributes (fields) of the class instance
+        my @attrs = self.^attributes;
+        my @nams;
+        for @attrs -> $a {
+            # need to get its name
+            my $v = $a.name;
+            # the name is prefixed by its sigil and twigil
+            # which we don't want
+            $v ~~ s/\S\S//;
+            @nams.push: $v;
+        }
+        @nams
+    }
+
+    method list-values(--> List) {
+        #| Return a list of the values for the attributes of the class instance
+        my @attrs = self.^attributes;
+        my @vals;
+        for @attrs -> $a {
+            # need to get its value
+            my $v = $a.get_value: self;
+            @vals.push: $v;
+        }
+        @vals
     }
     HERE
 
@@ -186,8 +234,8 @@ sub get-csv-hdrs($fnam, :$sepchar!, :$debug --> List) is export {
     }
 
     # keys are column number, 0..$n-1
-    my @hdrs-raw = @lines.head.split($sepchar); 
-    
+    my @hdrs-raw = @lines.head.split($sepchar);
+
     #my @hdrs-nums = @hdrs.sort({ $^a <=> $^b });
     my @hdrs;
     for @hdrs-raw -> $hdr is copy {

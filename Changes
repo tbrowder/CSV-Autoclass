@@ -1,6 +1,11 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Renamed example CSV file for clarity
+    - Allow one of three separator characters (,;|)
+    - Added a Resources module for payload introspection
+      (started with 'HowToUseModuleResources' and improved it)
+    - Much more robust architecture
     - Added a new sub module
     - Moved all bin subs to lib modules
     - Added better tests

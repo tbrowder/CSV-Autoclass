@@ -1,4 +1,4 @@
-unit class Person is export;
+unit class Person;
 
 has $.index is rw = '';
 has $.email is rw = '';
@@ -88,4 +88,3 @@ method list-values(--> List) {
 method firstname {
     self.first ?? self.first !! self.nickname
 }
-
