@@ -97,11 +97,12 @@ sub csv2class-with-args(@args) is export {
     if $csv-file.defined {
         #die "FATAL: No class name entered" if not $class-name.defined;
         # create the class
-        create-class :$class-name, :$csv-file, :$out-dir, :$sepchar, :$lower, :$debug;
+        create-class :$class-name, :$csv-file, :$out-dir, :$sepchar, 
+            :$lower, :$force, :$debug;
     }
     elsif $eg {
         # write-example-csv :$debug;
-        create-class :csv-file($eg-data), :$out-dir, :$debug;
+        create-class :csv-file($eg-data), :$out-dir, :$force, :$debug;
     }
     else {
         die "FATAL: No input csv file defined"; 

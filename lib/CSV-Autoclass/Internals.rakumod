@@ -26,6 +26,7 @@ sub create-class(
     :$out-dir,
     :$sepchar = ',',
     :$lower,
+    :$force,
     :$debug
     ) is export {
 
@@ -48,8 +49,8 @@ sub create-class(
 
     my @attrs = get-csv-hdrs $csv-file, :$sepchar, :$lower, :$debug;
 
-    my $ofil = write-class-def $class-name, @attrs, :$out-dir, :$debug;
-    say "See output CSV class module file '$ofil'";
+    my $ofil = write-class-def $class-name, @attrs, :$out-dir, :$force, :$debug;
+    say "See output CSV class module file '$ofil'" if $ofil;
 
 } # sub create-class(:$class-name, :$csv-file!, :$out-dir, :$debug) is export {
 
@@ -102,7 +103,9 @@ sub write-example-csv(:$debug) is export {
 
 } # sub write-example-csv(:$debug) is export {
 
-sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$debug --> Str) is export {
+sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$force, 
+    :$debug --> Str) is export {
+
     note "DEBUG: in sub write-class-def" if $debug;
     note "  \@attrs: {@attrs.raku}" if $debug;
 
@@ -111,9 +114,29 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$debug --> Str) 
         $fnam = $out-dir ~ "/" ~ $fnam;
     }
 
+    if $fnam.IO.e {
+        say "WARNING: File '$fnam' exists.";
+        if not $force.defined {
+            say "  Use the 'force' option to overwrite it.";
+            $fnam = ""; # for use by caller
+            exit;
+        }
+        else {
+            my $res = prompt "  Are you sure you want to overwrite it: (y/N)? ";
+            if $res ~~ /^:i y/ {
+                say "  Overwriting...";
+            }
+            else {
+                say "  Aborting without overwriting...";
+                $fnam = ""; # for use by caller
+                exit;
+            }
+        }
+    }
+
     my $fh = open $fnam, :w;
     $fh.say: "unit class $cname;";
-    $fh.say: "# WARNING - AUTO-GENERATED - EDITS WILL BE LOST";
+    $fh.say: "# WARNING - AUTO-GENERATED - EDITS MAY BE LOST BY ACCIDENT";
 
     # get length of longest attr
     my $len = 0;

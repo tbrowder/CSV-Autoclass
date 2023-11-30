@@ -1,6 +1,8 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Prevent overwriting an existing output file; added
+        a force option to enable overwrite
     - Added lower-case option for header fields
     - Renamed example CSV file for clarity
     - Allow one of three separator characters (,;|)
