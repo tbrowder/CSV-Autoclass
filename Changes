@@ -1,6 +1,7 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Added lower-case option for header fields
     - Renamed example CSV file for clarity
     - Allow one of three separator characters (,;|)
     - Added a Resources module for payload introspection
