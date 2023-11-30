@@ -25,6 +25,7 @@ sub create-class(
     :$class-name is copy,
     :$out-dir,
     :$sepchar = ',',
+    :$lower,
     :$debug
     ) is export {
 
@@ -45,7 +46,7 @@ sub create-class(
         }
     }
 
-    my @attrs = get-csv-hdrs $csv-file, :$sepchar, :$debug;
+    my @attrs = get-csv-hdrs $csv-file, :$sepchar, :$lower, :$debug;
 
     my $ofil = write-class-def $class-name, @attrs, :$out-dir, :$debug;
     say "See output CSV class module file '$ofil'";
@@ -208,7 +209,7 @@ sub strip-csv($csv, :$debug --> Str) is export {
     copy $csv, "$tdir/$csv.stripped";
 } # sub strip-csv($csv, :$debug --> Str) is export {
 
-sub get-csv-hdrs($fnam, :$sepchar!, :$debug --> List) is export {
+sub get-csv-hdrs($fnam, :$sepchar!, :$lower, :$debug --> List) is export {
     use Text::Utils :strip-comment, :normalize-text;
 
     my @lines;
@@ -240,6 +241,7 @@ sub get-csv-hdrs($fnam, :$sepchar!, :$debug --> List) is export {
     my @hdrs;
     for @hdrs-raw -> $hdr is copy {
         $hdr = normalize-text $hdr;
+        $hdr .= lc if $lower.defined;
         @hdrs.push: $hdr;
     }
 

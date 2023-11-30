@@ -31,6 +31,7 @@ sub csv2class-no-args is export {
       out-dir=X - where X is the desired output directory (default: '.')
       force     - force overwriting existing files
       sepchar=X - where X is the desired SEPCHAR (default: ',')
+      lower     - make all field names lower-case
 
     Author:  $auth
     Version: $ver
@@ -42,6 +43,7 @@ sub csv2class-with-args(@args) is export {
     my $debug   = 0;
     my $out-dir = '';
     my $force   = 0;
+    my $lower   = 0;
     my $eg      = 0;
     my $sepchar = ',';
     my $csv-file;   # source of CSV data, required on input
@@ -83,6 +85,7 @@ sub csv2class-with-args(@args) is export {
         when /:i ^eg/ { $eg    = 1 }
         when /:i ^d/  { $debug = 1 }
         when /:i ^f/  { $force = 1 }
+        when /:i ^l/  { $lower = 1 }
         when /:i ^v/  { 
             say "Author : ", auth; 
             say "Version: ", version; 
@@ -94,7 +97,7 @@ sub csv2class-with-args(@args) is export {
     if $csv-file.defined {
         #die "FATAL: No class name entered" if not $class-name.defined;
         # create the class
-        create-class :$class-name, :$csv-file, :$out-dir, :$sepchar, :$debug;
+        create-class :$class-name, :$csv-file, :$out-dir, :$sepchar, :$lower, :$debug;
     }
     elsif $eg {
         # write-example-csv :$debug;
