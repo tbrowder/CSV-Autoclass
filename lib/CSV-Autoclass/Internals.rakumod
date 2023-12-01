@@ -145,12 +145,18 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$force,
         $len = $nc if $len < $nc;
     }
 
-    # write attrs neatly
+    # Write attrs neatly
     $fh.say();
+    my $alen = 0;
+    for @attrs -> $a {
+        $alen = $a.chars if $a.chars > $alen;
+    }
     for @attrs -> $a {
         next if $a !~~ /\S/;
         note "DEBUG: listing \@attr '$a'" if $debug;
-        $fh.say: "has \$.{$a};";
+        $fh.print: "has \$.";
+        $fh.print: sprintf "%-*.*s", $alen, $alen, $a;
+        $fh.say: " is rw = '';";
     }
     $fh.say();
 
