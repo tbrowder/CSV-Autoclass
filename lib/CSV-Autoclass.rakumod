@@ -84,6 +84,9 @@ sub csv2class-with-args(@args) is export {
         }
         when /:i ^eg/ { $eg    = 1 }
         when /:i ^d/  { $debug = 1 }
+        when /:i ^'f=' \d / { 
+            $force = +$0
+        }
         when /:i ^f/  { $force = 1 }
         when /:i ^l/  { $lower = 1 }
         when /:i ^v/  { 
