@@ -151,6 +151,7 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$force,
     # and its installed executable program 'csv2class'.
 
     HERE
+
     #| Get length of longest attribute name for pretty-printing
     my $len = 0;
     for @attrs -> $a {
@@ -202,23 +203,20 @@ sub write-class-def($cname where { /\S+/ }, @attrs, :$out-dir, :$force,
     for @attrs -> $attr {
         my $len1 = "multi method ".chars + $len +  "\(\\)".chars;
         my $len2 = " \{ \$!".chars + $len;
-        my $len3 = "= \$v \}".chars;
-
+        my $len3 = " \$attr \}".chars;
         my $meth = sprintf "%-*.*s", $len1, $len1, "multi method $attr\() ";
-        my $sub1 = sprintf "%-*.*s", $len2, $len2, " \{ \$!{$attr} ";
-        my $sub2 = sprintf "%-*.*s", $len3, $len3, "= \$v \}";
+        my $sub1 = sprintf "%-*.*s", $len2, $len2, " \{ \$!{$attr}";
+        my $sub2 = sprintf "%-*.*s", $len3, $len3, "\}";
         $fh.say: "$meth $sub1 $sub2";
     }
-
     $fh.print: qq:to/HERE/;
 
     #| Setter multi methods
     HERE
     for @attrs -> $attr {
         my $len1 = "multi method ".chars + $len + "\(\$v\)".chars;
-        my $len2 = "\{ \$!".chars + $len;
+        my $len2 = " \{ \$!".chars + $len;
         my $len3 = "= \$v \}".chars;
-
         my $meth = sprintf "%-*.*s", $len1, $len1, "multi method $attr\(\$v\)";
         my $sub1 = sprintf "%-*.*s", $len2, $len2, "\{ \$!{$attr}";
         my $sub2 = sprintf "%-*.*s", $len3, $len3, "= \$v \}";
