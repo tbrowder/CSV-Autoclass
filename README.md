@@ -65,18 +65,14 @@ Also note both banks have their transactions temporally ordered with the most re
 Possible improvements
 ---------------------
 
-  * Add a YAML configuration file to the user's `$*HOME` directory to be used for defining translations for CSV file header field names. Such translations could be modified by the user if the user wishes to improve the transformation.
-
   * Use a database for storage instead of a CSV file.
 
 TODO
 ----
 
-  * Allow field separators other than the apostophe.
-
   * Make field name translations work.
 
-  * Add extensive tests.
+  * Add more tests.
 
 CREDITS
 =======

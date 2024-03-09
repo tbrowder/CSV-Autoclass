@@ -16,8 +16,8 @@ use-class # OUTPUT: «<usage information>␤»
 
 Note: This is API 2. Previous versions should NOT be used.
 
-B<CSV-Autoclass> is a module with two accompanying programs. For
-each program, execute it without any arguments to see instructions.
+B<CSV-Autoclass> is a module with two accompanying programs. For each
+program, execute it without any arguments to see instructions.
 
 =begin item
 C<csv2class csv=my-modules.csv>
@@ -99,12 +99,11 @@ transactions CSV file and its field names can be used as they are::
 Date,Account,Description,Category,Check,Credit,Debit
 =end code
 
-In both cases the derived class attribute names are clear,
- and objects created
-from the CSV files should be good translations of the attribute values
-B<as strings>. However, the meaning of the columns may not be obvious,
-nor may the transactions be unique if the files are concatenated
-erroneously by the user in processing the downloads.
+In both cases the derived class attribute names are clear, and objects
+created from the CSV files should be good translations of the
+attribute values B<as strings>. However, the meaning of the columns
+may not be obvious, nor may the transactions be unique if the files
+are concatenated erroneously by the user in processing the downloads.
 
 Also note both banks have their transactions temporally ordered with
 the most recent one on top. Given that, the user is cautioned about
@@ -114,26 +113,18 @@ one and increment by one for succeeding transactions
 
 =head2 Possible improvements
 
-=item
-Add a YAML configuration file to the user's
-C<$*HOME> directory to be used for defining translations for CSV file
-header field names. Such translations could be modified by the user if
-the user wishes to improve the transformation.
-
 =item Use a database for storage instead of a CSV file.
 
 =head2 TODO
 
-=item Allow field separators other than the apostophe.
-
 =item Make field name translations work.
 
-=item Add extensive tests.
+=item Add more tests.
 
 =head1 CREDITS
 
-Many thanks to Elizabeth Mattijsen (@lizmat) for showing me how
-to use Raku magic for creating the class programmatically.
+Many thanks to Elizabeth Mattijsen (@lizmat) for showing me how to use
+Raku magic for creating the class programmatically.
 
 =head1 AUTHOR
 
