@@ -69,6 +69,10 @@ lives-ok {
     csv2class-no-args
 }, "";
 
+lives-ok {
+    use-class-no-args
+}, "";
+
 my $out-dir1 = $tempdir1;
 my $out-dir2 = $tempdir2;
 lives-ok {
@@ -92,4 +96,3 @@ lives-ok {
     @args = "csv=$csv4", "out-dir=$out-dir1", "sepchar=semicolon", "force=2";
     csv2class-with-args @args
 }, "lives-ok, mixed SEPCHAR";
-

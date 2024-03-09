@@ -1,6 +1,7 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Fixed a broken bin file 'use-class' with no @*ARGS
     - Ensure class def has "is rw = ''" for all attributes
         for proper operation
     - Prevent overwriting an existing output file; added
