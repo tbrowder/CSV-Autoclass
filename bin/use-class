@@ -4,6 +4,9 @@ use CSV-Autoclass;
 
 use lib '.';
 
-use-class-no-args(@*ARGS) if not @*ARGS.elems;
-
-use-class-with-args @*ARGS;
+if @*ARGS.elems {
+    use-class-with-args @*ARGS;
+}
+else {
+    use-class-no-args
+}
