@@ -54,18 +54,18 @@ It is transformed into this header for attribute naming:
 
     Date,Check,TransactionType,Description,Debit,Credit
 
-On the other hand, Synovus Bank has the following header for its transactions CSV file. The field names work fine after down-casing them:
+On the other hand, Synovus Bank has the following header for its transactions CSV file and its field names can be used as they are::
 
     Date,Account,Description,Category,Check,Credit,Debit
 
-In both cases the class attribute names are clear and objects created from the CSV files should be good translations of the attribute values **as strings**. However, the meaning of the columns may not be obvious, nor may the transactions be unique if the files are concatenated erroneously by the user in processing the downloads.
+In both cases the derived class attribute names are clear, and objects created from the CSV files should be good translations of the attribute values **as strings**. However, the meaning of the columns may not be obvious, nor may the transactions be unique if the files are concatenated erroneously by the user in processing the downloads.
 
 Also note both banks have their transactions temporally ordered with the most recent one on top. Given that, the user is cautioned about rewriting those files for whatever reason. One suggestion is to add an index number column and start the first transaction in each month with one and increment by one for succeeding transactions
 
 Possible improvements
 ---------------------
 
-  * In like manner to module `App::Mi6`, add an INI file to the user's `$*HOME` directory to be used for defining translations for CSV file header field names. Such translations could be modified by the user if the user wishes to improve the transformation.
+  * Add a YAML configuration file to the user's `$*HOME` directory to be used for defining translations for CSV file header field names. Such translations could be modified by the user if the user wishes to improve the transformation.
 
   * Use a database for storage instead of a CSV file.
 
@@ -91,7 +91,7 @@ Tom Browder <tbrowder@acm.org>
 COPYRIGHT AND LICENSE
 =====================
 
-© 2022-2023 Tom Browder
+© 2022-2024 Tom Browder
 
 This library is free software; you may redistribute it or modify it under the Artistic License 2.0.
 

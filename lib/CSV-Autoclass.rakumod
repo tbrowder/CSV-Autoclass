@@ -16,7 +16,7 @@ sub csv2class-no-args is export {
           OR
       $prog eg
 
-    Given a CSV data file with the first row  being a header
+    Given a CSV data file with the first row being a header
     row, produce a class that has the same attributes and a
     'new' method that can create a class object from a data
     line in that file.
@@ -69,8 +69,11 @@ sub csv2class-with-args(@args) is export {
         when /'sepchar=' (\S+) / {
             $sepchar = ~$0;
             #| Legal chars
-            if $sepchar !~~ /^ <[,;|]> $/ {
-                die "FATAL: The only three valid SEPCHARs are: <,;|>, '$_' is not valid,";
+            if $sepchar !~~ /^ <[,;|]> || [comma|semicolon|pipe|auto] $/ {
+                die qq:to/HERE/;
+                FATAL: The only three valid SEPCHARs are <,;|>, 
+                       '$_' is not valid.
+                HERE
             }
         }
         when /'csv=' (\S+) / {
@@ -105,7 +108,8 @@ sub csv2class-with-args(@args) is export {
     }
     elsif $eg {
         # write-example-csv :$debug;
-        create-class :csv-file($eg-data), :$out-dir, :$force, :$debug;
+        create-class :csv-file($eg-data), :$out-dir, :$sepchar,
+            :$lower, :$force, :$debug;
     }
     else {
         die "FATAL: No input csv file defined"; 
@@ -141,6 +145,7 @@ sub use-class-with-args(@*ARGS) is export {
     my $force = 0;
     my $go    = 0;
     my $dir   = '.';
+    my $sepchar;
     my $csv-file;
     my $class-name; # abc.csv => Abc [<-- Abc is the cname (class name)]
 
@@ -184,7 +189,7 @@ sub use-class-with-args(@*ARGS) is export {
 
     say "Reading the CSV file and getting one $class-name object per data line...";
 
-    my @objs = get-csv-class-data :$class-name, :$csv-file, :$debug;
+    my @objs = get-csv-class-data :$class-name, :$sepchar, :$csv-file, :$debug;
 
     if $debug {
         say "temp exit with {@objs.elems} objects"; exit;

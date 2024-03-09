@@ -1,4 +1,4 @@
-unit module Util;
+unit module Utils;
 
 # copied from skaji's mi6 and modified as needed here
 my $base = $*SPEC.catdir($?FILE.IO.dirname, "..");

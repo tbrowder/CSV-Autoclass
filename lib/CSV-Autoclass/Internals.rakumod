@@ -1,6 +1,7 @@
 unit module CSV-Autoclass::Internals is export(:ALL);
 
 use File::Temp;
+use YAMLish;
 use CSV-Autoclass::Resources;
 
 constant $eg-data  is export = "eg-persons.csv";
@@ -24,7 +25,7 @@ sub create-class(
     :$csv-file!,
     :$class-name is copy,
     :$out-dir,
-    :$sepchar = ',',
+    :$sepchar is copy, # = ',',
     :$lower,
     :$force,
     :$debug
@@ -42,7 +43,8 @@ sub create-class(
         }
         else {
             die qq:to/HERE/;
-            FATAL: default CSV file basename ($basename) not in proper format--see README
+            FATAL: default CSV file basename ($basename) not in proper
+                   format--see README
             HERE
         }
     }
@@ -276,7 +278,54 @@ sub strip-csv($csv, :$debug --> Str) is export {
     copy $csv, "$tdir/$csv.stripped";
 } # sub strip-csv($csv, :$debug --> Str) is export {
 
-sub get-csv-hdrs($fnam, :$sepchar!, :$lower, :$debug --> List) is export {
+sub get-config-sepchar(
+) is export {
+    my $config = "{%*ENV<HOME>}/.CSV-Autoclass/config.yml";
+    my $val; # undefined
+
+    my $key = "csv-autoclass-sepchar";
+    if $config.IO.r {
+        # handling is tested in this repo at t/3-
+        my $str = $config.IO.slurp;
+        my %conf = load-yaml $str;
+        if %conf{$key}:exists {
+            $val = %conf{$key};
+        }
+    }
+    $val # may be undefined
+}
+sub get-envvar-sepchar(
+) is export {
+    my $key = "CSV_AUTOCLASS_SEPCHAR";
+    my $val; # undefined
+    if %*ENV{$key}:exists {
+        $val = %*ENV{$key};
+    }
+    $val # may be undefined
+}
+
+sub is-valid-sepchar($sepchar is copy) is export {
+    return if not $sepchar.defined;
+    with $sepchar {
+        when /:i ','|comma / {
+            $sepchar = ',';
+        }
+        when /:i ';'|semicolon / {
+            $sepchar = ';';
+        }
+        when /:i '|'|pipe / {
+            $sepchar = '|';
+        }
+    }
+    $sepchar
+}
+
+sub get-csv-hdrs(
+    $fnam,
+    :$sepchar is copy,
+    :$lower,
+    :$debug --> List
+) is export {
     use Text::Utils :strip-comment, :normalize-text;
 
     my @lines;
@@ -302,6 +351,58 @@ sub get-csv-hdrs($fnam, :$sepchar!, :$lower, :$debug --> List) is export {
     }
 
     # keys are column number, 0..$n-1
+    my $auto = 0;
+    $sepchar = is-valid-sepchar($sepchar);
+    my $config = is-valid-sepchar(get-config-sepchar);
+    my $envvar = is-valid-sepchar(get-envvar-sepchar);
+
+    # determine order
+    if $sepchar.defined {
+    }
+    elsif $config.defined {
+        $sepchar = $config
+    }
+    elsif $envvar.defined {
+        $sepchar = $envvar
+    }
+    else {
+        ++$auto;
+    }
+
+    if $auto {
+        # auto determine by examining the header line and counting
+        # valid sepchars
+        my ($nc, $ns, $np) = 0, 0, 0;
+        my ($nci, $nsi, $npi) = 0, 1, 2;
+        my $s = @lines.head;
+        my @arr = [$nc, $ns, $np];
+        for $s.comb {
+            when $_ eq ',' {
+                @arr[$nci] += 1; #++$nc;
+            }
+            when $_ eq ';' {
+                @arr[$nsi] += 1; #++$ns;
+            }
+            when $_ eq '|' {
+                @arr[$npi] += 1; #++$np;
+            }
+            default {
+                ; # ok
+            }
+        }
+        my $max-idx = @arr.pairs.max(*.value).key;
+        # the sepchar is the one with $max-idx in @arr;
+        if $max-idx == 0 {
+            $sepchar = ',';
+        }
+        elsif $max-idx == 1 {
+            $sepchar = ';';
+        }
+        elsif $max-idx == 2 {
+            $sepchar = '|';
+        }
+    }
+    die "FATAL: Undef \$sepchar" if not $sepchar.defined;
     my @hdrs-raw = @lines.head.split($sepchar);
 
     #my @hdrs-nums = @hdrs.sort({ $^a <=> $^b });
@@ -346,6 +447,7 @@ sub get-csv-class-data(
     :$class-name = 'Person';
     :$csv-file   = 'persons.csv',
     :$dir = '.',
+    :$sepchar is copy, # may not be defined
     :$debug,
     --> List
 ) is export {

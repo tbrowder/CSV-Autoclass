@@ -4,8 +4,8 @@ use File::Temp;
 use CSV-Autoclass;
 use CSV-Autoclass::Internals;
 
-use lib "t";
-use Util;
+use lib "t/lib";
+use Utils;
 
 plan 6;
 
@@ -79,17 +79,17 @@ lives-ok {
 is "$tempdir1/Person.rakumod".IO.r, True;
 
 lives-ok {
-    @args = "csv=$csv2", "out-dir=$out-dir1", "sepchar=;", "force=2";
+    @args = "csv=$csv2", "out-dir=$out-dir1", "sepchar=comma", "force=2";
     csv2class-with-args @args
 }, "lives-ok, semicolon SEPCHAR";
 
 lives-ok {
-    @args = "csv=$csv3", "out-dir=$out-dir1", "sepchar=|", "force=2";
+    @args = "csv=$csv3", "out-dir=$out-dir1", "sepchar=pipe", "force=2";
     csv2class-with-args @args
 }, "lives-ok, pipe SEPCHAR";
 
 lives-ok {
-    @args = "csv=$csv4", "out-dir=$out-dir1", "sepchar=|", "force=2";
+    @args = "csv=$csv4", "out-dir=$out-dir1", "sepchar=semicolon", "force=2";
     csv2class-with-args @args
 }, "lives-ok, mixed SEPCHAR";
 

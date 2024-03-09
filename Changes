@@ -7,7 +7,14 @@ Revision history for CSV-Autoclass
         a force option to enable overwrite
     - Added lower-case option for header fields
     - Renamed example CSV file for clarity
-    - Allow one of three separator characters (,;|)
+    - Allow one of three separator characters (,;|). Define the
+        one to be used in one of these ways:
+        + CLI
+        + in the user's configuration file
+            $HOME/.CSV-Autoclass/config.yml
+                csv-autoclass-sepchar: comma
+        + use environment variable CSV_AUTOCLASS_SEPCHAR to define it
+                CSV_AUTOCLASS_SEPCHAR=comma
     - Added a Resources module for payload introspection
       (started with 'HowToUseModuleResources' and improved it)
     - Much more robust architecture
