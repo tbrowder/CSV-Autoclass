@@ -7,7 +7,7 @@ use CSV-Autoclass::Internals;
 use lib "t/lib";
 use Utils;
 
-plan 6;
+plan 7;
 
 my $debug = 0;
 my @hdrs;
@@ -63,15 +63,15 @@ my $csv3b = "$tempdir2/clubs.csv";
 spurt $csv3, $csv-str3;
 =end comment
 
+lives-ok {
+    shell "csv2class";
+}, "csv2class-no-args";
+
+lives-ok {
+    shell "use-class";
+}, "use-class-no-args";
+
 my @args;
-
-lives-ok {
-    csv2class-no-args
-}, "";
-
-lives-ok {
-    use-class-no-args
-}, "";
 
 my $out-dir1 = $tempdir1;
 my $out-dir2 = $tempdir2;
