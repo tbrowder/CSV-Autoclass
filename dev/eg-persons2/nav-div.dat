@@ -1,0 +1,14 @@
+<!-- part1a precedes this fragment -->
+<!-- insert nav.tmpl -->
+        <nav>
+            <a href='index.html'>Home</a>
+            <a href='congregation.html'>Congregation</a>
+<!--
+            <a href='staff.html'>Staff</a>
+            <a href='families.html'>Families</a>
+            <a href='groups.html'>Groups</a>
+            <a href='example.html'>Example</a>
+-->
+        </nav>
+<!-- part1b follows this fragment -->
+

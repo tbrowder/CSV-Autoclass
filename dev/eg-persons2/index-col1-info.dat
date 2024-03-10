@@ -1,0 +1,10 @@
+# data for the info section (left column)
+# on the index.html page
+#
+# format:
+#
+#    text, paras separated by blank lines
+#    terminated by eof or next date
+#
+#    text may include html markup
+

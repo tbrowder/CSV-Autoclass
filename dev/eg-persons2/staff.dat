@@ -1,0 +1,21 @@
+# Staff members have their index numbers
+# separately on a line followed by a string
+# with their title. The order of the lines
+# is the desired order of display and should match
+# that shown on <https://gbumc.org>.
+
+#  Senior Pastor          # Dan Morris
+60 Pastor of Discipleship # Pam Avery
+#  Church Administrator   # Rhonda Merrill
+#  Youth Pastor           # John Kelsoe
+#  Associate Pastor       # Josh McLamb
+#  Community Minister     # Ashlee Mosley Brown
+#  Minister of Children and Family # Paula Roane
+#  Care Ministry Director # Gail Eggimann
+#  Traditional Music Director # Don Snowden
+#  Contemporary Music Directory # Jonathan Clark
+1  Maintenance Manager # Clarence Frontz
+#  Volunteer Caller # Kim Weekley
+#  Hospitality Director # Bette Harriman
+
+

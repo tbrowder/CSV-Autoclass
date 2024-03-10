@@ -1,0 +1,11 @@
+# data for the news section (right column)
+# on the index.html page
+#
+# format:
+#
+#  yyyy-mm-dd:
+#    text, paras separated by blank lines
+#    terminated by eof or next date
+#
+#    text may include html markup
+

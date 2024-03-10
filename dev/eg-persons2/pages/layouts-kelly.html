@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>GBUMC Directory</title>
+        <style>
+            /* Precisely how we align these things depends on whether they are
+            block elements like images, or inline text. */
+            header, nav {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* I've put all layouts on a single page to keep development
+            simple. The styles in this block are just for this example page.
+            The divs with IDs should most likely be removed in the final
+            version, and other style selectors retargetted. */
+            #L1, #L2, #L3 {
+                border: .1rem solid;
+                margin: 1rem;
+                padding: 1rem;
+                border-radius: 1rem;
+            }
+
+            /* Static columns */
+            #L1 {
+                overflow: hidden;
+            }
+
+            #L1 > div {
+                width: calc(50% - .5rem);
+                float: right;
+            }
+
+            /* Dynamic flowing columns */
+            #L2 {
+                column-count: 2;
+            }
+
+            /* The following line is just a cute way to select the left column
+            wihout having to apply a class or ID. If it feels messy, it would
+            work fine to apply explicit classes like "col-left". */
+            #L1 > div:first-child {
+                float: left;
+            }
+
+            /* Centered flowing boxes */
+            #L3 {
+                text-align: center;
+            }
+
+            #L3 > div {
+                outline: .1rem solid #7F7F7F; /* Just for showing the example */
+                display: inline-block;
+                width: 5rem;
+                height: 5rem;
+                margin: 1rem;
+
+                /* How the contents are positioned within each box
+                depends on what is in the box and where wrapping situations
+                may occur. The simplest case of a single image with no
+                additional content requires nothing further. The below will
+                reliably vertically center a single unwrapped line of text.
+                For this type of page I'd usually use a photo filling the box
+                with a line or two of name/position vertically aligned bottom,
+                or one line on top and one on bottom. It adds some to the CSS
+                and also often requires another nested box or two in the HTML,
+                so I haven't implemented that here yet, but am happy to do so
+                on request. */
+
+                line-height: 5rem; /* same as height above to center a single line */
+                vertical-align: middle;
+
+                /* I think I need nested boxes so I can do this:
+
+                       +-------------+  -----
+                       | +---------+ |    ^
+                       | |         | |    |
+                       | |         | |    |
+                       | |         | |    |
+                       | |         | |  row should align at top and bottom edge
+                       | +---------+ |  outer box has invisible border
+                       |     Sam     |  inner photo boxes will align top and bottom on the row (100x100 pixels)
+                       |    Jones    |  each text line is a separate box, with from 2 to N
+                       |   Deacon    |    lines possible
+                       +-------------+  --+--
+        
+                */
+            }
+        </style>
+    </head>
+    <body>
+
+        <header><h1>GBUMC Directory Layouts</h1></header>
+
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Foo</a>
+            <a href="#">Bar</a>
+        </nav>
+
+        <div id="L1">
+            <div>
+                <h2>Two static columns</h2>
+
+                <p>Depending on the size, shape and nature of your content, you
+                may want these two to collapse into one below a certain width.
+                That's pretty simple, let me know if it should be done
+                here.</p>
+
+                <p>Foo bar foobar foo bar foobar foo bar foobar foo bar foobar
+                foo bar foobar foo bar foobar foo bar foobar foo bar foobar foo
+                bar foobar foo bar foobar foo bar foobar foo bar foobar foo bar
+                foobar foo bar foobar foo bar foobar foo bar foobar foo bar
+                foobar foo bar foobar</p>
+            </div>
+            <div>
+                <h2>Separate column</h2>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat. Duis aute irure dolor in
+                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+
+        <div id="L2">
+            <h2>Two columns flowing singular content</h2>
+
+            <p>I assume this isn't what you meant, but in case this was the
+            intention, here is an example.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+
+        <div id="L3">
+            <h2>Centered flowing grid</h2>
+
+            <!-- The odd placing of line breaks below suppresses spurrious
+            whitespace since we're positioning these as inline content to
+            achieve the centered flowing layout. Other approaches are possible,
+            but generally require other compromises of complexity in the
+            styling and document structure. -->
+            <div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div><div
+            >Foo Bar</div>
+        </div>
+
+        <pre>1. front page with three main blocks:
+
++ centered header
++ horizontal menu
++ remainder of page split into even two columns
+
+2. photo pages with three main blocks:
+
++ centered header
++ horizontal menu
++ remainder with rows and columns of constant, same-sized objects aligned
+vertically and horizontally with the number of row-columns varying as the
+screen dimensions permit</pre>
+
+    </body>
+</html>

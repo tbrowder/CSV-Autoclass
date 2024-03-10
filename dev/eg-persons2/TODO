@@ -1,0 +1,5 @@
+DONE
++ move "get-*" subs from Subs.rakumod to Person.rakumod
+  partially, but need to clean up the duplication mess
+  probably by eliminating the "require" code
+

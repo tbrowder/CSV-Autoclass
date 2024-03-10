@@ -1,0 +1,29 @@
+2024-03-10
+
+This repo started as a copy of the CSV database 
+repo from the GBUMC Directory Project.
+
+The following steps were then taken to strip
+it of all personal data:
+
+1. The .git directory was deleted, thus ensuring
+no hidden data were available.
+
+2. The .gitignore file was inspected to ensure no
+personal data were available.
+
+3. All pictures were deleted.
+
+4. All .csv files were inspected and data lines 
+removed except for some publicly available GBUMC
+staff data.
+
+5. All .dat files were inspected and data lines
+with personal data removed except for some 
+publicly available GBUMC staff data.
+
+6. Finally, I moved the entire file tree
+to the public repo CSV-Autoclass as
+a subtree under /dev for reference as
+
+    dev/eg-persons2
