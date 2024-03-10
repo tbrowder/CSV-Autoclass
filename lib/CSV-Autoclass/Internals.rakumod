@@ -53,6 +53,17 @@ sub create-class(
 
     my $ofil = write-class-def $class-name, @attrs, :$out-dir, :$force, :$debug;
     say "See output CSV class module file '$ofil'" if $ofil;
+    if $ofil ~~ /:i 'eg-person' / {
+        # write the source csv file
+        my $path = "resources/eg-persons.csv";
+        my $s = get-content $path;
+        my $f = "eg-persons.csv";
+        spurt $f, $s;
+        say "See CSV class source '$f'" if $f;
+    }
+    else {
+        say "See CSV class source '$csv-file'" if $csv-file;
+    }
 
 } # sub create-class(:$class-name, :$csv-file!, :$out-dir, :$debug) is export {
 

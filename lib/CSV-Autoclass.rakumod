@@ -101,8 +101,6 @@ sub csv2class-with-args(@args) is export {
     }
 
     if $csv-file.defined {
-        #die "FATAL: No class name entered" if not $class-name.defined;
-        # create the class
         create-class :$class-name, :$csv-file, :$out-dir, :$sepchar, 
             :$lower, :$force, :$debug;
     }
@@ -112,7 +110,18 @@ sub csv2class-with-args(@args) is export {
             :$lower, :$force, :$debug;
     }
     else {
-        die "FATAL: No input csv file defined"; 
+        # give a friendlier msg
+        note qq:to/HERE/;
+        FATAL: No input csv file was defined; 
+
+        Don't forget to use one of these entries in order to
+        create your own class:
+
+            {$*PROGRAM.basename} <csv source file> [options]
+               OR
+            {$*PROGRAM.basename} csv=<csv source file> [options]
+        HERE
+        exit;	
     }
 
 } # sub csv2class-with-args is export {
@@ -163,8 +172,12 @@ sub use-class-with-args(@*ARGS) is export {
         when /:i class '=' (\S+) / {
             $class-name = ~$0;
         }
-        when /:i data '=' (\S+) / {
+        when /:i ['csv-file'|data] '=' (\S+) / {
             $csv-file = ~$0;
+        }
+        when /:i eg / {
+            $csv-file   = "eg-persons.csv";
+            $class-name = "Eg-person";
         }
         when /:i dir '=' (\S+) / {
             $dir = ~$0;
@@ -178,13 +191,26 @@ sub use-class-with-args(@*ARGS) is export {
         default { die "FATAL: Unknown arg '$_'" }
     }
 
+    if $class-name.defined {
+        if not $csv-file.defined {
+            # default: $class-name.lc;
+            #          $class-name ~= "s.rakumod"
+            $csv-file  = $class-name.lc;
+            $csv-file ~= "s.csv"
+        }
+    }
+
     if not $csv-file.defined {
         $csv-file   = $eg-data;
         $class-name = "Person";
     }
 
     if (try require ::($class-name)) === Nil {
-        die "FATAL: Failed to load module '$class-name'!";
+        die qq:to/HERE/;
+        FATAL: Failed to load module '$class-name'!
+                   csv src file: $csv-file
+               module file name: $class-name.rakumod
+        HERE
     }
 
     say "Reading the CSV file and getting one $class-name object per data line...";
