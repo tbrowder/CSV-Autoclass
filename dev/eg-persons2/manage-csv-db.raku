@@ -1,23 +1,18 @@
 #!/usr/bin/env raku
 
-use CSV-AutoClass;
+use CSV-Autoclass;
 use Ask;
 use Text::Utils :strip-comment, :normalize-string;
 use Proc::Easier;
 use File::Find;
-use Archive::SimpleZip;
 
 use lib "lib";
-#use Family;
-#use GBUMC::Person;
-#use GBUMC::Subs;
 use Person;
 use Subs;
 
 my $class-name = "Person";
 my $csv-file   = "persons.csv";
 
-my $zip     = 0;
 my $check   = 0;
 my $update  = 0;
 my $add     = 0;
@@ -41,12 +36,6 @@ if not @*ARGS.elems {
       update   - If, and only if, the repo is clean, walk through
                    each existing entry and ask for updates
       add      - Add new records
-      email    - Output a list of email records suitable for
-                   use with Gmail
-      move     - Move files from 'unique' into 'multi' or 'single'
-      tile[=D] - Create a montage from the images in the D directory
-                   [default: 'img-orig/single']
-      zip      - Zip up all the image files for each family
 
     Options:
       rewrite  - Data lines are shown on STDOUT with fields separated by commas (',')
@@ -69,15 +58,8 @@ for @*ARGS {
     when /:i ^s/ { ++$show    }
     when /:i ^f/ { ++$force   }
     when /:i ^d/ { ++$debug   }
-    when /:i ^e/ { ++$email   }
-    when /:i ^m/ { ++$move    }
     when /:i ^c/ { ++$check   }
     when /:i ^g/ { ++$check   } # fake for convenience
-    when /:i ^z/ { ++$zip     }
-    when /:i ^t[ile]? ['=' (\S+)]? / {
-        $tile = $0.defined ?? ~$0 !! 'img-orig/single';
-        die "FATAL: tile '$tile' is not a directory" if not $tile.IO.d;
-    }
     default {
         say "FATAL: Unknown arg '$_'"; exit;
     }
