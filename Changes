@@ -1,6 +1,9 @@
 Revision history for CSV-Autoclass
 
 {{$NEXT}}
+    - Improve standard code from that from GBUMC Persons
+    - Use templates to create files
+    - Fix workflows tests
     - Fixed a broken bin file 'use-class' with no @*ARGS
     - Ensure class def has "is rw = ''" for all attributes
         for proper operation

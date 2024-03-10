@@ -205,7 +205,17 @@ sub use-class-with-args(@*ARGS) is export {
         $class-name = "Person";
     }
 
+    =begin comment
     if (try require ::($class-name)) === Nil {
+        die qq:to/HERE/;
+        FATAL: Failed to load module '$class-name'!
+                   csv src file: $csv-file
+               module file name: $class-name.rakumod
+        HERE
+    }
+    =end comment
+    try require ::($class-name);
+    if ::($class-name) ~~ Failure {
         die qq:to/HERE/;
         FATAL: Failed to load module '$class-name'!
                    csv src file: $csv-file
